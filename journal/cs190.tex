@@ -1,0 +1,210 @@
+\documentclass[journal]{./IEEE/IEEEtran}
+\usepackage{cite,graphicx,amsmath,mathtools,caption,fixltx2e}
+
+\newcommand{\SPTITLE}{Sign Language Translation using Convolutional Neural Networks}
+\newcommand{\ADVISEE}{Carlos Miguel E. Canonizado}
+\newcommand{\ADVISER}{Jaime M. Samaniego}
+
+\newcommand{\BSCS}{Bachelor of Science in Computer Science}
+\newcommand{\ICS}{Institute of Computer Science}
+\newcommand{\UPLB}{University of the Philippines Los Ba\~{n}os}
+\newcommand{\REMARK}{\thanks{Presented to the Faculty of the \ICS, \UPLB\
+                             in partial fulfillment of the requirements
+                             for the Degree of \BSCS}}
+        
+\markboth{CMSC 190 Special Problem, \ICS}{}
+\title{\SPTITLE}
+\author{\ADVISEE~and~\ADVISER%
+\REMARK
+}
+%\pubid{\copyright~2006~ICS \UPLB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+% ABSTRACT
+% \begin{abstract}
+% No abstract yet
+% \end{abstract}
+
+% INDEX TERMS
+\begin{keywords}
+sign language, hand gesture recognition, neural network, convolution, CNN
+\end{keywords}
+
+% INTRODUCTION
+\section{Introduction}
+Sign language is a system of communication that has been around for years. Its primary usage is to enable communication between deaf and hearing people. The World Health Organization (WHO) \cite{WHO2018} estimated that by 2050, more than 900 million people will have disabling hearing loss. Given this large estimation, it is problematic that only a small percentage of people actually know how to use sign language. One of the most widely used sign languages is the American Sign Language (ASL). The ASL gained its popularity after William Stokoe, Dorothy Casterline, and Carl Croneberg published their Dictionary of American Sign Language on Linguistic Principles in 1965 \cite{Wilcox1991}.
+\newline
+\indent When it comes to motion gesture technology, the earliest implementation was made possible through the use of gloves with sensors. Depending on the hand movement, signals were decoded by a computer by mapping a combination of signals to unique gestures \cite{Sharma2015}.  Today, technological advancements allow programmers to develop tools that deal with the likes of motion gesture recognition, without the use of any external equipment, aside from cameras. Specifically, Open Source Computer Vision (OpenCV) is one of those tools that provide a set of functionalities to be integrated with programming languages such as Python, allowing real-time manipulation of what a computer sees.
+\newline
+\indent Another technological advancement which will make this study feasible is the existence of Artificial Intelligence (AI). AI is a broad topic and one of its use many uses is the implementation of neural networks. A neural network is a set of connected processors or neurons which can be activated to produce a desired idea or result \cite{Schmidhuber2015}. Neural networks have different types but for image-related tasks, a Convolutional Neural Network (CNN) is widely used due to its advantages for image classification or categorization \cite{Wu2016}. The difference between a CNN and a regular neural network is that a CNN takes advantage of the two-dimensional structure of an input image.
+\newline
+\indent This study aims to develop a mobile application to translate sign language using image or video processing through the implementation of  convolutional neural networks in order to fulfill the following:
+
+\begin{enumerate}
+\item allow translation of sign language to text and vice-versa;
+\item detect and interpret hand gestures regardless of the hand's color or size; and
+\item test the accuracy of convolutional neural networks in translating hand gestures.
+\end{enumerate}
+
+\indent Being able to translate sign language to text or vice-versa will be beneficial not only for the deaf community but also for those who are aspiring to learn sign language. Moreover, the communication barrier between the deaf and non-deaf community will be minimized since they will have accessible translators.
+\newline
+\indent Given that sign language has many variations, it would be difficult to consider these variations all at once because of the existence of overlapping meanings among gestures. Thus, ASL will be used as the standard vocabulary of this study to prevent ambiguities that may arise during implementation.
+\newline
+\indent The application will cater to mobile users since there are not many viable real-time sign language translators for public use. Since the processors of modern phones are not as powerful as actual computers, the application that will be developed from this study will require internet connectivity to connect to a server that will actually translate the sign language.
+
+% RELATED LITERATURE
+\section{Related Literature}
+For several decades, understanding the deaf community has become a major challenge. Sign language, despite its many variations, is one of the most effective methods that allow the better communication between the deaf and the non-deaf community. Several studies have been conducted to further allow translation of sign language without actually learning the language. One of the most popular is the use of digital image processing as a prerequisite in translation methods such as pattern matching and neural networks.
+
+\subsection{Digital Image Processing}
+An image is defined as a two-dimensional function, f(x,y), where x and y are the plane coordinates and the amplitude of f at any coordinate (x,y) is called the intensity of the image at that point \cite{Gonzalez2002}. The intensity of the points would usually have three values representing the Red Green Blue (RGB) color model. Another dimension can be added to RGB which is called RGBa where a is the alpha value that dictates the opacity of the point. These points are called pixels and given that images contain a set of pixels, these pixels can then be interpreted through the use of digital image processing.
+\newline
+\indent As for digital image processing, it refers to processing digital images by means of a digital computer. This process is done for many reasons, one of which is to enhance the image quality for human interpretation and another is to improve autonomous machine perception \cite{AbriolSantos12018}.
+\newline
+\indent One common method used in digital image processing is converting a colored image to grayscale. This method will remove the different colors of an image, rendering it to have shades of gray only. Grayscale conversion is usually done during pre-processing and it is achieved by changing every pixel value of an image with the mean of the current pixel's RGB values.
+\newline
+\indent The ability to turn an image to grayscale will make it easier to interpret the image's values due to the limited amount of color. However, some processes require taking it a step further by converting an image to binary. This means that for every pixel of the image, it would only be either one or zero. Having a value of one for a pixel will make it white while a value of zero will make it be black. To do this, the image must first be converted to grayscale. Then, for every pixel of the image, a certain threshold will be set and if the current value of the pixel is greater than or equal the threshold, it will have a value of one and zero otherwise. Compared to a grayscale image, a binary image can be analyzed better given that the program will only have to deal with zeros and ones.
+\newline
+\indent Lastly, another important method done in image processing that is also relevant to this study is edge detection. Edges are the boundaries between the regions of an image; edges could also be referred to as the outline of the objects in an image \cite{Sharma2013}. Edge detection is useful because it reduces the amount of data and it filters out useless information, at the same time, preserves the important structural properties of an image. 
+\newline
+\indent A lot of algorithms are used in order to implement edge detection and one example is the Canny edge detection. Canny edge detection was developed by John F. Canny in 1986 and it is a multi-stage algorithm. Using this algorithm will more likely provide accurate edges due to its detailed process. Canny edge detection starts with removing any noise from an image by using existing filters. After that, the direction of the horizontal and vertical direction of the image is obtained to be used for non-maximum suppression, which is done by checking if certain pixels of an image are within the local maximum of the neighbor pixels, resulting to thinner edges. Finally, hysteresis thresholding is done by applying two thresholds: a maximum and a minimum. If the pixel's value is greater than or equal to the maximum threshold, then that pixel is part of an edge; a pixel is not part of an edge whenever its value is less than the minimum threshold. However, if the pixel's value is less than the maximum threshold and greater than or equal to the minimum threshold, and if the neighbor pixels are part of an edge, then it is also part of that edge. Note that this process is done for every pixel until an outline of the different objects in an image is seen.
+
+\subsection{Previous Studies on Sign Language Translation}
+Throughout the years, a lot of implementations regarding sign language translation have been developed. The simplest one was done by Shinde and Kagalkar \cite{Shinde2015} through pattern matching. Given an input sign image, they first converted the image to grayscale then looked for the edges using Canny edge detection. With the edges defined, the image is then fed into an existing database of hand gestures with their corresponding definitions. If there is a match, then the label is returned and the input sign image will be defined.
+\newline
+\indent The problem with Shinde and Kagalkar's implementation is that the images available in their database is limited. With their implementation, only one image per hand gesture is used and this means that future input images must be positioned exactly the same as the database images, otherwise, even if there is an available definition for a certain hand gesture, it may not be able to recognize the input. Another factor that would drastically decrease the accuracy of this implementation is the varying sizes of hands. In addition, what they were only able to detect are static hand gestures. If a gesture is dynamic, meaning it includes more than one frame of movement, then it cannot be detected as well.
+\newline
+\indent A more advanced way of translating sign language is with the help of a Support Vector Machine (SVM). An SVM is used for analyzing data through classification, regression, and outliers detection. Additionally an SVM is a supervised machine learning algorithm that is reliant on plotted data points. Villamor \cite{Villamor2018} was able to utilize an SVM in sign language translation through the following process: first, given an input image, the background and hand are identified. After that, the features of the hand are detected, examples of these features are the center of the palm, finger defect points, and finger vectors. These data are then plotted in an n-dimensional space, where n is the number of features. Once the points are plotted, the image is classified by finding the difference of two sets of points. The classification may be in a form of labels or definitions and in this case, Villamor classified a hand gesture according to its definition.
+\newline
+\indent The similarities between pattern matching and SVM is that they both only require one existing hand gesture to be able to recognize similar ones and both of them cannot detect dynamic signs. But in SVM, the input images do not need to be positioned exactly the same as the existing gestures. Of course, both methods require providing the program with existing data to be able to start translating. However, the problem of different hand sizes in pattern matching is no longer an issue with SVM. The only problem Villamor faced is the inaccuracy of translation whenever the background color is close to the hand's color.
+\newline
+\indent Lastly, another method that was used in translating sign language is color segmentation and neural networks. For this method, Akmeliawati \cite{Akmeliawati2007} used custom-made gloves to gather necessary data from the signer. Since there is a lot of unwanted data captured in an image or video, the frames were segmented according to the color that was visible in the gloves. This makes the translation easier since the program expects certain colors for each feature like yellow for the palm, purple for the thumb, red for the index and ring finger, and blue for the middle and pinky finger.
+\newline
+\indent The fingers produce data which are called vectors. A vector is a collection of numbers and for each finger, there is one xyvector giving a total of five xyvectors per hand. The weights of the data from these vectors are then fed into a neural network, to be specific, an Artificial Neural Network (ANN). The ANN that Akmeliawati used had three neural networks: one for recognizing the alphabet, another for numbers, and the third one for word signs. After traversing these layers, a value will be returned if ever the ANN correctly classifies the input gesture. Compared to the first two methods that were mentioned, the use of color segmentation and ANN allowed Akmeliawati to dynamic signs such as fingerspelling. However, the slight disadvantage this has with the pattern matching and SVM is that external equipment is needed.
+
+\subsection{Neural Network}
+Based on basic neurobiology, a human brain consists of billions of nerve cells or neurons. These neurons communicate through electrical signals in the voltage of the cell wall or membrane. Essentially, each neuron receives thousands of connections from other neurons resulting to a multitude of incoming signals which reach the cell body \cite{Gurney1997}. Therefore, a connection of neurons can be called a neural network. In computer science terms, a neural network is called as is but it can also be referred to as an artificial neural network.
+\newline
+\indent An artificial neural network contains a set of processing units or nodes which simulate neurons and are interconnected by a set of weights. These weights are numerical and are passed onto the nodes. The nodes are simple computing elements that would mimic the behavior of neurons by comparing the current weight with a threshold. This process is called the activation function where if the threshold of the current node is exceeded by the input weight, the node activates and it can pass the weight to other connected nodes until it reaches a certain output \cite{Cross1995}. Since neural networks are a form of machine learning, it is important to note that one prerequisite in implementing neural networks is providing existing training data. 
+\newline
+\indent As opposed to real neural networks, artificial neural networks have a predefined structure. An artificial neural network has an input layer, an output layer, and hidden layers in between. The number of neurons in the input layer is dependent on the number of features in a given data set. A feature can be a single pixel of an image or simply numerical values. For a neural network of handwritten numbers with a size of 24 x 24 pixels, the input layer would contain 576 weights. After an input is sent to the input layer, it is then fed into the hidden layers. There can be any amount of hidden layers depending on the network model and data size. Each hidden layer can also vary in the number of neurons or nodes but generally, the nodes are greater than the number of features. The result from each layer is computed by getting the product from the matrix multiplication of the previous layer's output with the learnable weights of the current layer and by adding learnable biases, followed by the activation function. Finally, the output from the hidden layers is fed into a logistic function such as a sigmoid which converts the output of each class into the probability score of each class \cite{MishraND}. The equation for a sigmoid function is given by:
+\newline
+\begin{equation}
+\sigma(x) = \frac{1}{1+e^{-x}}
+\end{equation}
+\newline
+\indent Errors are inevitable when transitioning from one layer to another which is why there are methods that attempt to minimize them. One common error reduction method is backpropagation. Backpropagation is done by comparing the output of the network with the true output while propagating the error back through the network, altering the weight of the connections between the network elements to make the network's response more accurate next time \cite{Cross1995}.
+
+\subsection{Convolution}
+In digital image processing, the characteristics of an image are often modified. The modification is done through convolution and the output can be a smoothened, sharpened, intensified, or enhanced image. Therefore, a convolution can be defined as a general purpose filter effect for images \cite{Ludwig2007}. To be able to apply convolution, kernels are used. A kernel is a matrix of numbers which is of the size N x N where N is an odd number. An example of a kernel is given by:
+\newline
+\begin{equation}
+\begin{bmatrix}
+1&2&1\\ 
+2&4&2\\ 
+1&2&1 
+\end{bmatrix}
+\end{equation}
+\newline
+\indent Image convolution is done by replacing each pixel with the sum of the weighted products of the original pixel neighborhood and the kernel. The pixel neighborhood must be the same as the size of the kernel and the value to be replaced is the central pixel. In the case of the figure above, the central pixel is four. If ever the pixel being changed is at the edge, you could either skip that pixel or pad its missing pixel neighbors with zeros. The convolution formula is defined by the equation:
+\newline
+\begin{equation}
+O(x,y) = \left | \frac{\sum_{i=-(n-1)/2}^{(n-1)/2} \sum_{j=-(n-1)/2}^{(n-1)/2}f{ij}d{ij}}{F} \right |
+\end{equation}
+\newline
+\indent In the formula above, O(x,y) is the output pixel, x y of image O; n is the size of the convolution kernel; f\textsubscript{ij} is the value of the kernel at i,j; d\textsubscript{ij} is the value at pixel i,j; and F is the sum of values of the kernel \cite{AbriolSantos22018}.
+
+\subsection{Convolutional Neural Network}
+Convolutional Neural Networks (CNNs) are similar to traditional neural networks in a sense that they are comprised of neurons that are optimized through learning. Each node or neuron will still receive an input and perform activation functions. The main difference is that CNNs are primarily used for pattern recognition with images \cite{OShea2015}.
+\newline
+\indent O'Shea \cite{OShea2015} states that one of the largest limitations of regular neural networks is the lack of computational power required to compute data from images. Handwritten digits can be viable in regular neural networks since the image dimensions could be as small as 28 x 28. However, if we take a larger colored image input of 64 x 64, then the number of neurons for the first layer increases to an overwhelmingly large number of 12,288.
+\newline 
+\indent With traditional neural networks, there is a minimum of three layers: the input, output, and hidden layers in between. In CNN, there are additional layers namely: convolutional layer, pooling layer, and fully-connected layers. The process of recognizing an image in CNN is done by passing an input image to the input layer. The input layer will hold the pixel values of the image. Next, the convolutional layer will compute for the output of the neurons. The output is then passed to the pooling layer which will reduce the number of activation parameters by downsampling. After that, the fully-connected layers will attempt to produce a probability classification of each class, similar to that of an artificial neural network.
+\newline
+\indent Within the convolutional and fully-connected layers, a rectified linear unit (ReLu) is used to be able to apply an elementwise function such as a sigmoid to the output of the activation function produced by the previous layer. This is also done in traditional neural networks but only at the end. The ReLu R(x), given a sigmoid x is denoted by:
+\newline
+\begin{equation}
+R(x) = max(0,x)
+\end{equation}
+\newline
+\indent A CNN has been used by Krizhevsky, Sutskever, and Hinton \cite{Krizhevsky2012} to build ImageNet, a large deep convolutional neural network to classify 1.2 million high-resolution images of different contents. The said neural network has 60 million parameters, 650,000 neurons with five convolutional layers, and three fully-connected layers. Upon computing the network's accuracy, the study was able to produce only a 17\% error rate which is commendable given the immense data set  This shows the power of CNN in image classification given that the computer has enough processing power.
+
+% MATERIALS AND METHODS
+\section{Methodology}
+This study will focus on translating different hand gestures to their respective definitions in ASL. A mobile application will serve as the user interface of the mobile application and in order to correctly classify the hand gestures, a computer program will be implemented using Python along with other utilities. The whole translation process will be done in a separate Python server to minimize the heavy processes done on the mobile phone.
+
+\subsection{System Requirements}
+The following will be used to develop and implement the mobile application:
+
+\begin{itemize}
+    \item A smartphone running on Android or iOS for the user interface;
+    \item Windows or Linux operating system to run the Python server;
+    \item OpenCV version 3.4.2 or higher for digital image processing;
+    \item React Native version 0.57 or higher for creating the mobile application;
+    \item Python version 3.5.2 or higher and Python Flask 1.0 or higher for creating the server; and
+    \item TensorFlow version 1.0 or higher for CNN development.
+\end{itemize}
+
+\subsection{Data Gathering}
+The data that will be used in this study will be sign language gestures that are available from different sources such as Google's Dataset Toolbox and Kaggle, a site where a community of data scientists freely share their data and machine learning information. In addition, the researcher will also take his own pictures for the accumulation of more hand gestures.
+
+\subsection{Mobile Application}
+The mobile application will be named ``Sign Me Up!'' and React Native will be used in making the application available for either Android or iOS. The app will have three functionalities: one for translating sign language to text, another for translating text to sign language, and lastly, one for adding a new gesture. The wireframe can be seen in the appendix.
+
+\subsection{Translation}
+TO ADD
+
+% INITIAL RESULTS FOR SP 1
+\section{Initial Results}
+TO ADD
+
+% RESULTS AND DISCUSSION
+% \section{Results and Discussion}
+% No results yet
+
+% CONCLUSION AND FUTURE WORK
+% \section{Conclusion and Future Work}
+% No conclusion yet
+
+% BIBLIOGRAPHY
+\bibliographystyle{./IEEE/IEEEtran}
+\bibliography{./cs190}
+
+% APPENDIX
+\appendix
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=.95\linewidth]{./images/1.png}
+    \caption{Menu screen}
+    \label{fig:label1}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=.95\linewidth]{./images/2.png}
+    \caption{First functionality}
+    \label{fig:label2}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=.95\linewidth]{./images/3.png}
+    \caption{Second functionality}
+    \label{fig:label3}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=.95\linewidth]{./images/4.png}
+    \caption{Third functionality}
+    \label{fig:label4}
+\end{figure}
+
+\end{document}
+ 
