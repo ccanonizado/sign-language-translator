@@ -5,7 +5,7 @@ SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 ## What's inside?
 
 There are two folders:
-* one for the **source code**;
+* one for the **code**;
 * and another for the **journal**.
 
 ## How to use the application?
