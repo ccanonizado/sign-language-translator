@@ -1,4 +1,4 @@
-# Sign Language Translation using CNN
+# Sign Language Translator using CNN
 
 SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 

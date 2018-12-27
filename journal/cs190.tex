@@ -33,7 +33,7 @@
 
 % INDEX TERMS
 \begin{keywords}
-sign language, hand gesture recognition, neural network, convolution, covolutional neural network
+sign language, hand gesture recognition, neural network, convolution, convolutional neural network
 \end{keywords}
 
 % INTRODUCTION
@@ -123,7 +123,7 @@ Convolutional neural networks (CNNs) are similar to traditional neural networks 
 
 % MATERIALS AND METHODS
 \section{Methodology}
-This study will focus on translating different hand gestures to their respective definitions in ASL. An Android mobile application will serve as the user interface and in order to correctly classify the hand gestures, a computer program will be implemented using Python along with other utilities. The whole translation process will be done in a separate Python server to minimize the heavy processes done on the mobile phone.
+This study will focus on translating different hand gestures to their respective definitions in ASL. An Android application will serve as the user interface and in order to correctly classify the hand gestures, a computer program will be implemented using Python along with other utilities. The whole translation process will be done in a separate Python server to minimize the heavy processes done on the mobile phone.
 
 \subsection{System Requirements}
 The following will be used to develop and implement the mobile application:
@@ -132,20 +132,19 @@ The following will be used to develop and implement the mobile application:
     \item A smartphone running on Android version 5.1.1 or higher for the user interface;
     \item Android Studio version 3.2.1 or higher for creating the mobile application;
     \item Windows or Linux operating system to run the Python server;
-    \item Python version 3.6.7 or higher and Python Flask 1.0 or higher for creating the server;
+    \item Python version 3.6 or higher and Python Flask 1.0 or higher for creating the server;
     \item OpenCV version 3.4.2 or higher for digital image processing; and
     \item TensorFlow version 1.0 or higher for CNN development.
 \end{itemize}
 
 \subsection{Data Gathering}
-The data that will be used in this study will be sign language gestures that are available from different sources such as Google's Dataset Toolbox and Kaggle, a site where a community of data scientists freely share their data and machine learning information. In addition, the researcher will also take his own pictures for the accumulation of more hand gestures. The amount of training data to be used is around 1000 images per gesture but more than that is better.
+The data that will be used in this study will be sign language gestures that are available from different sources such as Google's Dataset Toolbox and Kaggle, a site where a community of data scientists freely share their data and machine learning information. In addition, the researcher will also take his own pictures for the accumulation of more hand gestures. The amount of training data to be used is around 500 images per gesture but more than that is better.
 
 \subsection{Mobile Application}
 The mobile application will be named ``Sign Me Up!'' which will have three functionalities: one for translating sign language to text, another for translating text to sign language, and lastly, one for adding a new gesture. It will be made available for Android using Android Studio as the integrated development environment (IDE). The wireframe can be seen in the appendix.
 
 \subsection{Translation}
 The process of translating text to sign language will just be dependent on the gestures available. A sequence of images will be shown per letter or phrase that needs to be translated. However, the process of translating sign language to text can be found in Figure 1. Note that all the steps in translating sign language to text will be implemented using Python as the programming language, OpenCV for digital image processing, and Tensorflow for CNN development.
-\newline
 \newline
 \newline
 \newline
@@ -163,7 +162,7 @@ The process of translating text to sign language will just be dependent on the g
 Once enough data has been gathered, all the images per gesture will be stored in an individual folder and labels will be manually added depending on the definition of the gestures in ASL.
 \newline
 \subsubsection{Image Processing}
-Before using the available data, each image must first be processed using OpenCV. All images will be resized to 50x50 pixels using OpenCV’s resize function. After that, the images will be converted to grayscale and then to binary using adaptive thresholding. Other preprocessing methods such as sharpening or enhancing images will be used if deemed necessary.
+Before using the available data, each image must first be processed using OpenCV. All images will be resized to 50x50 pixels using OpenCV's resize function. After that, the images will be converted to grayscale and then to binary using adaptive thresholding. Other preprocessing methods such as sharpening or enhancing images will be used if deemed necessary.
 \newline
 \subsubsection{Building the Model}
 After processing the images, the model can now be created. The input layer will hold all the pixel values of the image. The hidden layers will contain N convolution and pooling layers before being stacked into a fully-connected layer. The output of probabilities will be dependent on the gestures that were defined in the labeled data. For this CNN model, the activation function to be used is a Rectified Linear Unit (ReLu) which is given by:
@@ -189,7 +188,7 @@ The Adam Optimizer is the most complex part of the CNN and is the default go-to 
 Lastly, the epochs refer to the number of iterations that the CNN will train for. Once the network is done training, translation can be done by using the detected hand gestures from the camera as input.
 \newline
 \subsubsection{Getting Input}
-The smartphone’s camera will serve as the source of input for translation. But before being able to extract any data from it, the hand must be detected first. Hand detection will be done by applying background subtraction to the current frame and converting the result to binary. Since there will be a lot of unnecessary elements, the biggest contour must be found which will most likely be the hand. After the contour of the hand is found, it will be the only one filled. This will give us a result of a binary image of the input hand which will be passed into the CNN for translation. A sample input can be seen in the initial results.
+The smartphone's camera will serve as the source of input for translation. But before being able to extract any data from it, the hand must be detected first. Hand detection will be done by applying background subtraction to the current frame and converting the result to binary. Since there will be a lot of unnecessary elements, the biggest contour must be found which will most likely be the hand. After the contour of the hand is found, it will be the only one filled. This will give us a result of a binary image of the input hand which will be passed into the CNN for translation. A sample input can be seen in the initial results.
 
 % INITIAL RESULTS FOR SP 1
 \section{Initial Results}
