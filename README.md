@@ -4,9 +4,9 @@ SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 
 ## What's inside?
 
-* **/code** for the sign language translation files
-* **/journal** for the LaTex and other manuscript files
-* **/SignLanguageTranslator** for the Android Studio files
+* **/android** for the Android Studio files
+* **/cnn** for the Python CNN files
+* **/journal** for the LaTeX files
 
 ## Important links!
 
