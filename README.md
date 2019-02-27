@@ -4,13 +4,9 @@ SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 
 ## What's inside?
 
-There are two folders:
-* one for the **code**;
-* and another for the **journal**.
-
-## How to use the application?
-
-*To add once finished*.
+* **/code** for the sign language translation files
+* **/journal** for the LaTex and other manuscript files
+* **/SignLanguageTranslator** for the Android Studio files
 
 ## Important links!
 

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sign Me Up!</string>
+    <string name="app_description">Your friendly Sign Language Translator</string>
+    <string name="sign_to_text">Sign Language to Text</string>
+    <string name="text_to_sign">Text to Sign Language</string>
+    <string name="about">About</string>
+    <string name="title_activity_sign_to_text">SignToText</string>
+</resources>
