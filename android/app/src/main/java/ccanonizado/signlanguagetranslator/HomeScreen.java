@@ -12,16 +12,18 @@ import android.widget.ImageView;
 public class HomeScreen extends AppCompatActivity {
     private Button signToTextButton;
     private Button textToSignButton;
-    private Button aboutButton;
+    private Button vocabularyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
+        getSupportActionBar().hide();
+
         signToTextButton = findViewById(R.id.signToTextButton);
         textToSignButton = findViewById(R.id.textToSignButton);
-        aboutButton = findViewById(R.id.aboutButton);
+        vocabularyButton = findViewById(R.id.vocabularyButton);
 
         signToTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,10 +39,10 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        aboutButton.setOnClickListener(new View.OnClickListener() {
+        vocabularyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAbout();
+                openVocabulary();
             }
         });
     }
@@ -55,8 +57,8 @@ public class HomeScreen extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openAbout() {
-        Intent intent = new Intent(this, About.class);
+    public void openVocabulary() {
+        Intent intent = new Intent(this, Vocabulary.class);
         startActivity(intent);
     }
 }
