@@ -10,5 +10,5 @@ SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 
 ## Important links!
 
-* Reference for translation [code](https://github.com/Evilport2/Sign-Language)
+* Reference for CNN [code](https://github.com/Evilport2/Sign-Language)
 * Journal editor in [Overleaf](https://www.overleaf.com/project/5bba47e85c4dc537fd77ae68) (Private)
