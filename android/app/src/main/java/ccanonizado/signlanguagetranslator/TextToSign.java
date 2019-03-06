@@ -6,11 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class TextToSign extends AppCompatActivity {
     private Button translateButton;
     private EditText inputText;
     private String input;
+    private ImageView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class TextToSign extends AppCompatActivity {
 
         translateButton = findViewById(R.id.translateButtonTS);
         inputText = findViewById(R.id.inputText);
+        result = findViewById(R.id.resultTS);
+
 
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
