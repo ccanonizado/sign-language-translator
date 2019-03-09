@@ -51,7 +51,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Input message here"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
