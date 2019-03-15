@@ -24,11 +24,11 @@ public class TextToSign extends AppCompatActivity {
     private ImageButton backButton;
     private ImageButton nextButton;
     private TextView resultReference;
-    private EditText inputText;
-    private String input;
     private ImageView resultImage;
+    private EditText inputText;
 
     // translation variables
+    private String input;
     private Pattern regex;
     private Matcher specialCharacters;
     private List<String> vocabulary;
@@ -42,6 +42,7 @@ public class TextToSign extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text_to_sign);
 
+        // show back button
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -49,17 +50,23 @@ public class TextToSign extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
         resultReference = findViewById(R.id.resultReference);
-        inputText = findViewById(R.id.inputText);
         resultImage = findViewById(R.id.resultTS);
+        inputText = findViewById(R.id.inputText);
 
         backButton.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.INVISIBLE);
 
+        // user has not translated yet
         resultCount = -1;
+
+        // for getting the focus
         inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        // special characters regex
         regex = Pattern.compile("[^a-zA-Z0-9\\s]");
+
+        // starting words / phrases from vocabulary
         vocabulary = Arrays.asList(
                 "yes","no","you","lol","that","hi","hello","halt",
                 "stop","equality","equal","okay","question","really",
@@ -69,11 +76,17 @@ public class TextToSign extends AppCompatActivity {
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // all lower case before processing
                 input = inputText.getText().toString().toLowerCase();
+
                 if (input.length() > 0){
+
+                    // if not focused anymore - hide keyboard
                     if (getWindow().getCurrentFocus() != null)
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                                 InputMethodManager.HIDE_NOT_ALWAYS);
+
                     resultReference.setText(inputText.getText().toString());
                     inputText.setText(null);
                     resultSigns = textToSign(input);
@@ -133,6 +146,7 @@ public class TextToSign extends AppCompatActivity {
 
         List<String> result = new ArrayList<>();
 
+        // special characters - invalid
         if (specialCharacters.find()){
             result.add("sign_message_special");
         }
@@ -144,6 +158,7 @@ public class TextToSign extends AppCompatActivity {
             for (int i=0; i<line.length; i++){
                 remaining = line.length-1-i;
 
+                // first layer - checks if part of words / phrases available
                 if (vocabulary.contains(line[i])) {
                     if (line[i].equals("i")) {
                         if (remaining < 2)

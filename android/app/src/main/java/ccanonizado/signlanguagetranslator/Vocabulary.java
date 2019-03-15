@@ -11,6 +11,7 @@ public class Vocabulary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vocabulary);
 
+        // show back button
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

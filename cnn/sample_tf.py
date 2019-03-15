@@ -1,4 +1,6 @@
 import tensorflow as tf 
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 # sample data set of handwritten digits
 mnist = tf.keras.datasets.mnist
@@ -27,6 +29,12 @@ model.fit(x_train, y_train, epochs=3)
 # value loss and value accuracy
 val_loss, val_acc = model.evaluate(x_test, y_test)
 print(val_loss, val_acc)
+
+# save a model
+# model.save('num_reader.model')
+
+# load a model
+# new_model = tf.keras.models.load_model('num_reader.model')
 
 # predict using the method and test data
 predictions = model.predict([x_test])
