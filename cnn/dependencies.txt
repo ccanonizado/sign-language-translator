@@ -1,5 +1,0 @@
-Android Studio
-Python
-Tensorflow
-Keras
-OpenCV
