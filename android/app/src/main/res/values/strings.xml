@@ -4,5 +4,5 @@
     <string name="sign_to_text">Sign Language to Text</string>
     <string name="text_to_sign">Text to Sign Language</string>
     <string name="vocabulary">Vocabulary</string>
-    <string name="reminder1">The definition appended is\nthe one with the highest\npercentage.\n\nYou can reset the result\nif it it gets too long.</string>
+    <string name="reminder1">The definition appended is\nthe one with the highest\npercentage.</string>
 </resources>

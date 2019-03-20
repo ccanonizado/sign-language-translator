@@ -1,4 +1,5 @@
 /bottlenecks
 /inception
 /data
+*.gz
 *.pb

@@ -1,23 +1,43 @@
 package ccanonizado.signlanguagetranslator;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.camerakit.CameraKitView;
+import com.wonderkiln.camerakit.CameraListener;
+import com.wonderkiln.camerakit.CameraView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignToText extends AppCompatActivity {
     private Button translateButton;
     private Button resetButton;
     private TextView hint;
     private TextView result;
-    private CameraKitView cameraKitView;
+    private CameraView cameraView;
 
     // translation variables
     private Boolean translated;
+    static Classifier classifier;
+    static final int INPUT_SIZE = 300;
+    private static final int IMAGE_MEAN = 128;
+    private static final float IMAGE_STD = 128f;
+    private static final String INPUT_NAME = "Mul";
+    private static final String OUTPUT_NAME = "final_result";
+    private static final String MODEL_FILE = "file:///android_asset/graph.pb";
+    private static final String LABEL_FILE = "file:///android_asset/labels.txt";
+    static List<Classifier.Recognition> results;
+    static Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +52,38 @@ public class SignToText extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
         hint = findViewById(R.id.stHint);
         result = findViewById(R.id.stResult);
-        cameraKitView = findViewById(R.id.camera);
+        cameraView = findViewById(R.id.camera);
 
         result.setVisibility(View.INVISIBLE);
         resetButton.setVisibility(View.INVISIBLE);
 
         translated = false;
+        results = new ArrayList<>();
+        initializeModel();
+
+        cameraView.setCameraListener(new CameraListener() {
+            @Override
+            public void onPictureTaken(byte[] picture) {
+                bitmap = BitmapFactory.decodeByteArray(
+                        picture,
+                        0,
+                        picture.length);
+                bitmap = Bitmap.createScaledBitmap(
+                        bitmap,
+                        INPUT_SIZE,
+                        INPUT_SIZE,
+                        false);
+//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+                results = classifier.recognizeImage(bitmap);
+                Log.i("Results",Integer.toString(results.size()));
+                new Handler(Looper.getMainLooper()).post(new Runnable(){
+                    @Override
+                    public void run() {
+                        result.setText("'"+results.get(0).getTitle()+"'");
+                    }
+                });
+            }
+        });
 
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +93,7 @@ public class SignToText extends AppCompatActivity {
                 resetButton.setVisibility(View.VISIBLE);
                 result.setVisibility(View.VISIBLE);
                 translated = true;
+                cameraView.captureImage();
             }
         });
 
@@ -56,6 +103,28 @@ public class SignToText extends AppCompatActivity {
                 result.setText("''");
             }
         });
+    }
+
+    private void initializeModel() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    classifier = TensorFlowImageClassifier.create(
+                            getAssets(),
+                            MODEL_FILE,
+                            LABEL_FILE,
+                            INPUT_SIZE,
+                            INPUT_SIZE,
+                            IMAGE_MEAN,
+                            IMAGE_STD,
+                            INPUT_NAME,
+                            OUTPUT_NAME);
+                } catch (final Exception e) {
+                    throw new RuntimeException("Error initializing TensorFlow Model!", e);
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -79,32 +148,14 @@ public class SignToText extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        cameraKitView.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        cameraKitView.onResume();
+        cameraView.start();
     }
 
     @Override
     protected void onPause() {
-        cameraKitView.onPause();
+        cameraView.stop();
         super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        cameraKitView.onStop();
-        super.onStop();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
