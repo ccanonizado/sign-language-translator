@@ -16,6 +16,7 @@ public class Vocabulary extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    // home button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

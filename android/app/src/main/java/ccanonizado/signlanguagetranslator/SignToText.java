@@ -2,7 +2,6 @@ package ccanonizado.signlanguagetranslator;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SignToText extends AppCompatActivity {
+
+    // widget variables
     private Button translateButton;
     private Button resetButton;
     private TextView hint;
@@ -48,15 +49,18 @@ public class SignToText extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // get references of widgets
         translateButton = findViewById(R.id.translateButtonST);
         resetButton = findViewById(R.id.resetButton);
         hint = findViewById(R.id.stHint);
         result = findViewById(R.id.stResult);
         cameraView = findViewById(R.id.camera);
 
+        // hide other widgets
         result.setVisibility(View.INVISIBLE);
         resetButton.setVisibility(View.INVISIBLE);
 
+        // initialize variables and model
         translated = false;
         results = new ArrayList<>();
         initializeModel();
@@ -74,8 +78,11 @@ public class SignToText extends AppCompatActivity {
                         INPUT_SIZE,
                         false);
 //                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+
+                // call tensorflow image recognition
                 results = classifier.recognizeImage(bitmap);
-                Log.i("Results",Integer.toString(results.size()));
+
+                // use UI thread to make changes
                 new Handler(Looper.getMainLooper()).post(new Runnable(){
                     @Override
                     public void run() {
@@ -88,10 +95,14 @@ public class SignToText extends AppCompatActivity {
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // hide and show other widgets
                 translateButton.setVisibility(View.INVISIBLE);
                 hint.setVisibility(View.INVISIBLE);
                 resetButton.setVisibility(View.VISIBLE);
                 result.setVisibility(View.VISIBLE);
+                
+                // user has translated then take picture
                 translated = true;
                 cameraView.captureImage();
             }
@@ -100,6 +111,8 @@ public class SignToText extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
+                // reset result text if user thinks it is too long
                 result.setText("''");
             }
         });
@@ -128,26 +141,6 @@ public class SignToText extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) this.finish();
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (translated) {
-            translateButton.setVisibility(View.VISIBLE);
-            hint.setVisibility(View.VISIBLE);
-            resetButton.setVisibility(View.INVISIBLE);
-            result.setVisibility(View.INVISIBLE);
-            translated = false;
-        }
-        else
-            super.onBackPressed();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         cameraView.start();
@@ -157,5 +150,29 @@ public class SignToText extends AppCompatActivity {
     protected void onPause() {
         cameraView.stop();
         super.onPause();
+    }
+
+    // home button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) this.finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    // back button
+    @Override
+    public void onBackPressed() {
+
+        // if user has translated once - revert to default view
+        if (translated) {
+            translateButton.setVisibility(View.VISIBLE);
+            hint.setVisibility(View.VISIBLE);
+            resetButton.setVisibility(View.INVISIBLE);
+            result.setVisibility(View.INVISIBLE);
+            translated = false;
+        }
+        else
+            super.onBackPressed();
     }
 }

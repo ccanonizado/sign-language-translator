@@ -1,7 +1,6 @@
 package ccanonizado.signlanguagetranslator;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -20,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextToSign extends AppCompatActivity {
+    
+    // widget variables
     private Button translateButton;
     private ImageButton backButton;
     private ImageButton nextButton;
@@ -46,6 +47,7 @@ public class TextToSign extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // get references of widgets
         translateButton = findViewById(R.id.translateButtonTS);
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
@@ -53,20 +55,21 @@ public class TextToSign extends AppCompatActivity {
         resultImage = findViewById(R.id.resultTS);
         inputText = findViewById(R.id.inputText);
 
+        // hide other widgets
         backButton.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.INVISIBLE);
 
-        // user has not translated yet
+        // initialize to -1 (user not translated yet)
         resultCount = -1;
 
-        // for getting the focus
+        // get keyboard focus
         inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        // special characters regex
+        // store special characters regex
         regex = Pattern.compile("[^a-zA-Z0-9\\s]");
 
-        // starting words / phrases from vocabulary
+        // list words / phrases from vocabulary
         vocabulary = Arrays.asList(
                 "yes","no","you","lol","that","hi","hello","halt",
                 "stop","equality","equal","okay","question","really",
@@ -77,7 +80,7 @@ public class TextToSign extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // all lower case before processing
+                // convert input to lower case
                 input = inputText.getText().toString().toLowerCase();
 
                 if (input.length() > 0){
@@ -87,21 +90,27 @@ public class TextToSign extends AppCompatActivity {
                         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                                 InputMethodManager.HIDE_NOT_ALWAYS);
 
+                    // show letters / words being translated and reset input field
                     resultReference.setText(inputText.getText().toString());
                     inputText.setText(null);
+
+                    // get result of translation
                     resultSigns = textToSign(input);
                     resultCount = 0;
 
+                    // hide both left and right buttons
                     if (resultSigns.size() == 1) {
                         backButton.setVisibility(View.INVISIBLE);
                         nextButton.setVisibility(View.INVISIBLE);
                     }
 
+                    // show right button first
                     else {
                         backButton.setVisibility(View.INVISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                     }
 
+                    // show current image
                     imageId = getResources().getIdentifier(
                             resultSigns.get(resultCount), "drawable", getPackageName()
                     );
@@ -115,9 +124,12 @@ public class TextToSign extends AppCompatActivity {
             public void onClick(View v) {
                 resultCount--;
                 nextButton.setVisibility(View.VISIBLE);
+
+                // check bounds
                 if (resultCount == 0)
                     backButton.setVisibility(View.INVISIBLE);
 
+                // show current image
                 imageId = getResources().getIdentifier(
                         resultSigns.get(resultCount), "drawable", getPackageName()
                 );
@@ -130,9 +142,12 @@ public class TextToSign extends AppCompatActivity {
             public void onClick(View v) {
                 resultCount++;
                 backButton.setVisibility(View.VISIBLE);
+
+                // check bounds
                 if (resultCount == resultSigns.size()-1)
                     nextButton.setVisibility(View.INVISIBLE);
 
+                // show current image
                 imageId = getResources().getIdentifier(
                         resultSigns.get(resultCount), "drawable", getPackageName()
                 );
@@ -146,7 +161,7 @@ public class TextToSign extends AppCompatActivity {
 
         List<String> result = new ArrayList<>();
 
-        // special characters - invalid
+        // if there is a special character - invalid
         if (specialCharacters.find()){
             result.add("sign_message_special");
         }
@@ -158,8 +173,22 @@ public class TextToSign extends AppCompatActivity {
             for (int i=0; i<line.length; i++){
                 remaining = line.length-1-i;
 
-                // first layer - checks if part of words / phrases available
+                // if current word is part of vocabulary
                 if (vocabulary.contains(line[i])) {
+
+                    /*
+
+                        This block checks if the phrases are satisfied
+                        if not - just spell out the words given
+
+                        Phrases available:
+                        I love you
+                        I hate you
+                        thank you
+                        good job
+
+                    */
+
                     if (line[i].equals("i")) {
                         if (remaining < 2)
                             result.add("sign_"+line[i]);
@@ -174,23 +203,6 @@ public class TextToSign extends AppCompatActivity {
                             }
                             i += 2;
                         }
-                    }
-
-                    else if (line[i].equals("good")) {
-                        if (remaining < 1) {
-                            for (int j=0; j<line[i].length(); j++)
-                                result.add("sign_"+Character.toString(line[i].charAt(j)));
-                        }
-
-                        else {
-                            if (line[i+1].equals("job"))
-                                result.add("sign_good_job");
-                            else {
-                                for (int j=0; j<line[i].length(); j++)
-                                    result.add("sign_"+Character.toString(line[i].charAt(j)));
-                            }
-                        }
-                        i += 1;
                     }
 
                     else if (line[i].equals("thank")) {
@@ -210,10 +222,35 @@ public class TextToSign extends AppCompatActivity {
                         i += 1;
                     }
 
+                    else if (line[i].equals("good")) {
+                        if (remaining < 1) {
+                            for (int j=0; j<line[i].length(); j++)
+                                result.add("sign_"+Character.toString(line[i].charAt(j)));
+                        }
+
+                        else {
+                            if (line[i+1].equals("job"))
+                                result.add("sign_good_job");
+                            else {
+                                for (int j=0; j<line[i].length(); j++)
+                                    result.add("sign_"+Character.toString(line[i].charAt(j)));
+                            }
+                        }
+                        i += 1;
+                    }
+
+                    // add word to list of results
                     else
                         result.add("sign_"+line[i]);
                 }
 
+                /*
+
+                    Either it is a word that does not exist from the vocabulary
+                    or it is a singular letter / number - in this case then
+                    simply add every character to the results
+
+                */
                 else
                     for (int j=0; j<line[i].length(); j++)
                         result.add("sign_"+Character.toString(line[i].charAt(j)));
@@ -223,6 +260,7 @@ public class TextToSign extends AppCompatActivity {
         return result;
     }
 
+    // home button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -230,8 +268,11 @@ public class TextToSign extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // back button
     @Override
     public void onBackPressed() {
+
+        // if user has translated once - revert to default view
         if (resultCount != -1) {
             backButton.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.INVISIBLE);

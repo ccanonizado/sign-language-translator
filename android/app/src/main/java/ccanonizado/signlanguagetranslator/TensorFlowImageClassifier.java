@@ -32,8 +32,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-import ccanonizado.signlanguagetranslator.Classifier;
-
 /**
  * A classifier specialized to label images using TensorFlow.
  */
