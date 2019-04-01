@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".SignToText">
 
-    <com.wonderkiln.camerakit.CameraView
-        android:id="@+id/camera"
+    <FrameLayout
+        android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginStart="8dp"
@@ -19,7 +19,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!--<com.wonderkiln.camerakit.CameraView-->
+        <!--android:id="@+id/camera"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.517"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/translateButtonST"
@@ -29,7 +45,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/button_blue"
         android:text="Translate"
         android:textAllCaps="false"
@@ -47,8 +63,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/button_blue"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/button_black"
         android:text="Reset"
         android:textAllCaps="false"
         android:textColor="#fff"
@@ -85,7 +101,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="''"
         android:textColor="#333"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/resetButton"

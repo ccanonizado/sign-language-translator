@@ -2,6 +2,7 @@ package ccanonizado.signlanguagetranslator;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +11,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.wonderkiln.camerakit.CameraListener;
+import com.wonderkiln.camerakit.CameraProperties;
 import com.wonderkiln.camerakit.CameraView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignToText extends AppCompatActivity {
+public class SignToText extends AppCompatActivity implements Camera.PreviewCallback {
 
     // widget variables
     private Button translateButton;
@@ -27,12 +30,17 @@ public class SignToText extends AppCompatActivity {
     private TextView result;
     private CameraView cameraView;
 
+    private Camera mCamera;
+    private CameraPreview mPreview;
+
     // translation variables
+    private String last;
+    private String current;
     private Boolean translated;
     static Classifier classifier;
     static final int INPUT_SIZE = 300;
     private static final int IMAGE_MEAN = 128;
-    private static final float IMAGE_STD = 128f;
+    private static final float IMAGE_STD = 128;
     private static final String INPUT_NAME = "Mul";
     private static final String OUTPUT_NAME = "final_result";
     private static final String MODEL_FILE = "file:///android_asset/graph.pb";
@@ -54,7 +62,7 @@ public class SignToText extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
         hint = findViewById(R.id.stHint);
         result = findViewById(R.id.stResult);
-        cameraView = findViewById(R.id.camera);
+//        cameraView = findViewById(R.id.camera);
 
         // hide other widgets
         result.setVisibility(View.INVISIBLE);
@@ -63,34 +71,49 @@ public class SignToText extends AppCompatActivity {
         // initialize variables and model
         translated = false;
         results = new ArrayList<>();
+        last = "";
         initializeModel();
 
-        cameraView.setCameraListener(new CameraListener() {
-            @Override
-            public void onPictureTaken(byte[] picture) {
-                bitmap = BitmapFactory.decodeByteArray(
-                        picture,
-                        0,
-                        picture.length);
-                bitmap = Bitmap.createScaledBitmap(
-                        bitmap,
-                        INPUT_SIZE,
-                        INPUT_SIZE,
-                        false);
-//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+//        // Create an instance of Camera
+//        mCamera = getCameraInstance();
+//
+//        // Create our Preview view and set it as the content of our activity.
+//        mPreview = new CameraPreview(this, mCamera);
+//        FrameLayout preview = findViewById(R.id.camera_preview);
+//        preview.addView(mPreview);
 
-                // call tensorflow image recognition
-                results = classifier.recognizeImage(bitmap);
-
-                // use UI thread to make changes
-                new Handler(Looper.getMainLooper()).post(new Runnable(){
-                    @Override
-                    public void run() {
-                        result.setText("'"+results.get(0).getTitle()+"'");
-                    }
-                });
-            }
-        });
+//        cameraView.setCameraListener(new CameraListener() {
+//            @Override
+//            public void onPictureTaken(byte[] picture) {
+//                bitmap = BitmapFactory.decodeByteArray(
+//                        picture,
+//                        0,
+//                        picture.length);
+//                bitmap = Bitmap.createScaledBitmap(
+//                        bitmap,
+//                        INPUT_SIZE,
+//                        INPUT_SIZE,
+//                        false);
+////                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+//
+//                // call tensorflow image recognition
+//                results = classifier.recognizeImage(bitmap);
+//
+//                // use UI thread to make changes
+//                if (results.size() > 0)
+//
+//                    // only change if current result is unique
+//                    if (last != results.get(0).getTitle())
+//                        new Handler(Looper.getMainLooper()).post(new Runnable(){
+//                            @Override
+//                            public void run() {
+//                                last = results.get(0).getTitle();
+//                                current = result.getText().toString();
+//                                result.setText(getString(current, last));
+//                            }
+//                        });
+//            }
+//        });
 
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,18 +127,60 @@ public class SignToText extends AppCompatActivity {
                 
                 // user has translated then take picture
                 translated = true;
-                cameraView.captureImage();
+//                cameraView.captureImage();
             }
         });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 // reset result text if user thinks it is too long
-                result.setText("''");
+                result.setText(null);
             }
         });
+    }
+
+    private String getString(String current, String result) {
+
+        // format other labels
+        switch (result) {
+            case "hellohi":
+                result = "hello / hi";
+                break;
+            case "okaygoodjob":
+                result = "okay / good job";
+                break;
+            default:
+                break;
+        }
+
+        // append single character
+        if (result.length() == 1)
+            current += result;
+        else {
+
+            /*
+
+                This block just checks if last word from current
+                is a word / phrase available in the vocabulary
+                if not - add space before and after the result
+
+            */
+
+            if (current.length() > 0){
+                if (current.charAt(current.length()-1) != ' ')
+                    current += ' ' + result + ' ';
+                else
+                    current += result + ' ';
+            }
+            else if (current.length() == 0)
+                current += result;
+            else
+                current += result + ' ';
+        }
+
+        return current;
     }
 
     private void initializeModel() {
@@ -140,17 +205,79 @@ public class SignToText extends AppCompatActivity {
         }).start();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        cameraView.start();
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try { c = Camera.open(); }
+        catch (Exception e){ }
+        return c;
     }
 
     @Override
-    protected void onPause() {
-        cameraView.stop();
+    public void onPause() {
         super.onPause();
+        if (mCamera != null){
+            mCamera.setPreviewCallback(null);
+            mPreview.getHolder().removeCallback(mPreview);
+            mCamera.release();
+            mCamera = null;
+        }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
+
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
+    }
+
+    public void onPreviewFrame(byte[] picture, Camera camera) {
+        if (translated) {
+            bitmap = BitmapFactory.decodeByteArray(
+                    picture,
+                    0,
+                    picture.length);
+            bitmap = Bitmap.createScaledBitmap(
+                    bitmap,
+                    INPUT_SIZE,
+                    INPUT_SIZE,
+                    false);
+//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+
+            // call tensorflow image recognition
+            results = classifier.recognizeImage(bitmap);
+
+            // use UI thread to make changes
+            if (results.size() > 0)
+
+                // only change if current result is unique
+                if (last != results.get(0).getTitle())
+                    new Handler(Looper.getMainLooper()).post(new Runnable(){
+                        @Override
+                        public void run() {
+                            last = results.get(0).getTitle();
+                            current = result.getText().toString();
+                            result.setText(getString(current, last));
+                        }
+                    });
+        }
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        cameraView.start();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        cameraView.stop();
+//        super.onPause();
+//    }
 
     // home button
     @Override
@@ -171,6 +298,7 @@ public class SignToText extends AppCompatActivity {
             resetButton.setVisibility(View.INVISIBLE);
             result.setVisibility(View.INVISIBLE);
             translated = false;
+            last = "";
         }
         else
             super.onBackPressed();
