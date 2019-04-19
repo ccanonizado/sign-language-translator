@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sign Me Up!</string>
+    <string name="app_name">Sign Me Up</string>
     <string name="app_description">Your friendly Sign Language Translator</string>
     <string name="sign_to_text">Sign Language to Text</string>
     <string name="text_to_sign">Text to Sign Language</string>
