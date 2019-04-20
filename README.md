@@ -4,6 +4,8 @@
 
 SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 
+___
+
 ### Content:
 
 * **/android** for the Android Studio files

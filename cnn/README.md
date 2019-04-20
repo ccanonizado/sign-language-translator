@@ -2,11 +2,15 @@
 
 This model was produced by retraining the Inception-v3 model with a hand gestures data set.
 
+___
+
 ### Content:
 
 * **/python** for the training files and results solver
 * **/results** for the final and raw results
 * **/scripts** for the automation
+
+___
 
 ### Retraining the Model:
 
@@ -20,9 +24,13 @@ After that, execute the following:
 ./scripts/quantize.sh
 ```
 
+___
+
 ### Making Predictions:
 
 Change the arguments of **./scripts/label_single_image.sh** as needed and execute the script. Make sure that lines 143, 144, 147, and 148 are commented out in **./python/label_image.py**.
+
+___
 
 ### Calculating Results:
 
