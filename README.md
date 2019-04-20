@@ -1,6 +1,4 @@
-# Sign Me Up
-
-## An Android Sign Language Translator Using Convolutional Neural Networks
+## Sign Me Up: An Android Sign Language Translator Using Convolutional Neural Networks
 
 SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel Europeo Canonizado*
 
