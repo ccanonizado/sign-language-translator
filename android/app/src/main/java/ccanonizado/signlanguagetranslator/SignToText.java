@@ -11,31 +11,27 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.wonderkiln.camerakit.CameraListener;
 import com.wonderkiln.camerakit.CameraProperties;
 import com.wonderkiln.camerakit.CameraView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignToText extends AppCompatActivity implements Camera.PreviewCallback {
+public class SignToText extends AppCompatActivity {
 
     // widget variables
     private Button translateButton;
-    private Button resetButton;
     private TextView hint;
     private TextView result;
     private CameraView cameraView;
 
-    private Camera mCamera;
-    private CameraPreview mPreview;
-
     // translation variables
-    private String last;
-    private String current;
+    private String resultText;
     private Boolean translated;
     static Classifier classifier;
     static final int INPUT_SIZE = 300;
@@ -59,128 +55,98 @@ public class SignToText extends AppCompatActivity implements Camera.PreviewCallb
 
         // get references of widgets
         translateButton = findViewById(R.id.translateButtonST);
-        resetButton = findViewById(R.id.resetButton);
         hint = findViewById(R.id.stHint);
         result = findViewById(R.id.stResult);
-//        cameraView = findViewById(R.id.camera);
+        cameraView = findViewById(R.id.camera);
 
-        // hide other widgets
+        // hide result first
         result.setVisibility(View.INVISIBLE);
-        resetButton.setVisibility(View.INVISIBLE);
 
         // initialize variables and model
         translated = false;
         results = new ArrayList<>();
-        last = "";
         initializeModel();
 
-//        // Create an instance of Camera
-//        mCamera = getCameraInstance();
-//
-//        // Create our Preview view and set it as the content of our activity.
-//        mPreview = new CameraPreview(this, mCamera);
-//        FrameLayout preview = findViewById(R.id.camera_preview);
-//        preview.addView(mPreview);
+        cameraView.setCameraListener(new CameraListener() {
+            @Override
+            public void onPictureTaken(byte[] picture) {
 
-//        cameraView.setCameraListener(new CameraListener() {
-//            @Override
-//            public void onPictureTaken(byte[] picture) {
-//                bitmap = BitmapFactory.decodeByteArray(
-//                        picture,
-//                        0,
-//                        picture.length);
-//                bitmap = Bitmap.createScaledBitmap(
-//                        bitmap,
-//                        INPUT_SIZE,
-//                        INPUT_SIZE,
-//                        false);
-////                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
-//
-//                // call tensorflow image recognition
-//                results = classifier.recognizeImage(bitmap);
-//
-//                // use UI thread to make changes
-//                if (results.size() > 0)
-//
-//                    // only change if current result is unique
-//                    if (last != results.get(0).getTitle())
-//                        new Handler(Looper.getMainLooper()).post(new Runnable(){
-//                            @Override
-//                            public void run() {
-//                                last = results.get(0).getTitle();
-//                                current = result.getText().toString();
-//                                result.setText(getString(current, last));
-//                            }
-//                        });
-//            }
-//        });
+                bitmap = BitmapFactory.decodeByteArray(
+                        picture,
+                        0,
+                        picture.length);
+                bitmap = Bitmap.createScaledBitmap(
+                        bitmap,
+                        INPUT_SIZE,
+                        INPUT_SIZE,
+                        false);
+//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
+
+                // call tensorflow image recognition
+                results = classifier.recognizeImage(bitmap);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        translateButton.setText("Translate");
+                        translateButton.setEnabled(true);
+                        translateButton.setClickable(true);
+                    }
+                });
+
+                // use UI thread to make changes
+                if (results.size() > 0)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            resultText = results.get(0).getTitle();
+                            result.setText(getString(resultText));
+                        }
+                    });
+            }
+        });
 
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // hide and show other widgets
-                translateButton.setVisibility(View.INVISIBLE);
                 hint.setVisibility(View.INVISIBLE);
-                resetButton.setVisibility(View.VISIBLE);
                 result.setVisibility(View.VISIBLE);
                 
                 // user has translated then take picture
                 translated = true;
-//                cameraView.captureImage();
-            }
-        });
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        translateButton.setText("Translating");
+                        translateButton.setEnabled(false);
+                        translateButton.setClickable(false);
+                    }
+                });
 
-                // reset result text if user thinks it is too long
                 result.setText(null);
+                cameraView.captureImage();
             }
         });
     }
 
-    private String getString(String current, String result) {
+    private String getString(String resultText) {
 
         // format other labels
-        switch (result) {
+        switch (resultText) {
             case "hellohi":
-                result = "hello / hi";
+                resultText = "hello / hi";
                 break;
             case "okaygoodjob":
-                result = "okay / good job";
+                resultText = "okay / good job";
                 break;
             default:
                 break;
         }
 
-        // append single character
-        if (result.length() == 1)
-            current += result;
-        else {
-
-            /*
-
-                This block just checks if last word from current
-                is a word / phrase available in the vocabulary
-                if not - add space before and after the result
-
-            */
-
-            if (current.length() > 0){
-                if (current.charAt(current.length()-1) != ' ')
-                    current += ' ' + result + ' ';
-                else
-                    current += result + ' ';
-            }
-            else if (current.length() == 0)
-                current += result;
-            else
-                current += result + ' ';
-        }
-
-        return current;
+        return resultText;
     }
 
     private void initializeModel() {
@@ -205,79 +171,17 @@ public class SignToText extends AppCompatActivity implements Camera.PreviewCallb
         }).start();
     }
 
-    public static Camera getCameraInstance(){
-        Camera c = null;
-        try { c = Camera.open(); }
-        catch (Exception e){ }
-        return c;
-    }
-
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mCamera != null){
-            mCamera.setPreviewCallback(null);
-            mPreview.getHolder().removeCallback(mPreview);
-            mCamera.release();
-            mCamera = null;
-        }
-    }
-
-    @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        // Create an instance of Camera
-        mCamera = getCameraInstance();
-
-        // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        cameraView.start();
     }
 
-    public void onPreviewFrame(byte[] picture, Camera camera) {
-        if (translated) {
-            bitmap = BitmapFactory.decodeByteArray(
-                    picture,
-                    0,
-                    picture.length);
-            bitmap = Bitmap.createScaledBitmap(
-                    bitmap,
-                    INPUT_SIZE,
-                    INPUT_SIZE,
-                    false);
-//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
-
-            // call tensorflow image recognition
-            results = classifier.recognizeImage(bitmap);
-
-            // use UI thread to make changes
-            if (results.size() > 0)
-
-                // only change if current result is unique
-                if (last != results.get(0).getTitle())
-                    new Handler(Looper.getMainLooper()).post(new Runnable(){
-                        @Override
-                        public void run() {
-                            last = results.get(0).getTitle();
-                            current = result.getText().toString();
-                            result.setText(getString(current, last));
-                        }
-                    });
-        }
+    @Override
+    protected void onPause() {
+        cameraView.stop();
+        super.onPause();
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        cameraView.start();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        cameraView.stop();
-//        super.onPause();
-//    }
 
     // home button
     @Override
@@ -293,12 +197,10 @@ public class SignToText extends AppCompatActivity implements Camera.PreviewCallb
 
         // if user has translated once - revert to default view
         if (translated) {
-            translateButton.setVisibility(View.VISIBLE);
+            result.setText(null);
             hint.setVisibility(View.VISIBLE);
-            resetButton.setVisibility(View.INVISIBLE);
             result.setVisibility(View.INVISIBLE);
             translated = false;
-            last = "";
         }
         else
             super.onBackPressed();

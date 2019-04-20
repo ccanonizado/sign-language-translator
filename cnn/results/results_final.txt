@@ -1,0 +1,213 @@
+a:
+Confidence: 62.4498
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 80.0
+Wrong Predictions: 
+     s: 1
+==================================================
+b:
+Confidence: 27.1096
+Top-1-Accuracy: 20.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     v: 1
+     f: 2
+     k: 1
+==================================================
+c:
+Confidence: 91.5403
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+d:
+Confidence: 75.4884
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+e:
+Confidence: 71.3239
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+f:
+Confidence: 69.2242
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+g:
+Confidence: 47.1842
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     h: 1
+==================================================
+h:
+Confidence: 88.2374
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+hellohi:
+Confidence: 71.6996
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+i:
+Confidence: 71.6996
+Top-1-Accuracy: 60.0
+Top-5-Accuracy: 80.0
+Wrong Predictions: 
+     f: 1
+     n: 1
+==================================================
+j:
+Confidence: 57.5536
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     h: 1
+==================================================
+k:
+Confidence: 38.9782
+Top-1-Accuracy: 60.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     w: 1
+     v: 1
+==================================================
+l:
+Confidence: 73.5850
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+m:
+Confidence: 35.2467
+Top-1-Accuracy: 60.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     i: 1
+     n: 1
+==================================================
+n:
+Confidence: 55.8013
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     m: 1
+==================================================
+no:
+Confidence: 58.3989
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     z: 1
+==================================================
+o:
+Confidence: 79.4044
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+okaygoodjob:
+Confidence: 97.8182
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+p:
+Confidence: 75.8770
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+q:
+Confidence: 45.2842
+Top-1-Accuracy: 60.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     x: 1
+     o: 1
+==================================================
+r:
+Confidence: 43.0818
+Top-1-Accuracy: 100.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+==================================================
+s:
+Confidence: 56.6103
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     n: 1
+==================================================
+t:
+Confidence: 34.6972
+Top-1-Accuracy: 60.0
+Top-5-Accuracy: 60.0
+Wrong Predictions: 
+     y: 1
+     o: 1
+==================================================
+that:
+Confidence: 78.4250
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     y: 1
+==================================================
+u:
+Confidence: 57.2008
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     r: 1
+==================================================
+v:
+Confidence: 55.1236
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     w: 1
+==================================================
+w:
+Confidence: 66.2519
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     v: 1
+==================================================
+x:
+Confidence: 39.9979
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     v: 1
+==================================================
+y:
+Confidence: 73.9857
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     n: 1
+==================================================
+yes:
+Confidence: 58.3642
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     a: 1
+==================================================
+z:
+Confidence: 42.2726
+Top-1-Accuracy: 80.0
+Top-5-Accuracy: 100.0
+Wrong Predictions: 
+     r: 1
+==================================================

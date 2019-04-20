@@ -1,7 +1,7 @@
 \documentclass[journal]{./IEEE/IEEEtran}
-\usepackage{cite,graphicx,amsmath,mathtools,caption,fixltx2e}
+\usepackage{cite,graphicx,amsmath,mathtools,caption,fixltx2e,multicol}
 
-\newcommand{\SPTITLE}{Sign Language Translation using Convolutional Neural Networks}
+\newcommand{\SPTITLE}{Sign Me Up: An Android Sign Language Translator Using Convolutional Neural Networks }
 \newcommand{\ADVISEE}{Carlos Miguel E. Canonizado}
 \newcommand{\ADVISER}{Jaime M. Samaniego}
 
@@ -27,228 +27,320 @@
 \maketitle
 
 % ABSTRACT
-% \begin{abstract}
-% No abstract yet
-% \end{abstract}
+\begin{abstract}
+Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. There are limited translators available for public use which includes text to sign language and vice-versa. Sign Me Up is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks to translate gestures from the user and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the application gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other.
+\end{abstract}
 
 % INDEX TERMS
 \begin{keywords}
-sign language, hand gesture recognition, neural network, convolution, convolutional neural network
+android, sign language, neural network, convolution, convolutional neural network, inception model
 \end{keywords}
 
 % INTRODUCTION
 \section{Introduction}
+
+\subsection{Background of the Study}
 Sign language is a system of communication that has been around for years. Its primary usage is to enable communication between deaf and hearing people. The World Health Organization (WHO) \cite{WHO2018} estimated that by 2050, more than 900 million people will have disabling hearing loss. Given this large estimation, it is problematic that only a small percentage of people actually know how to use sign language. One of the most widely used sign languages is the American Sign Language (ASL). The ASL gained its popularity after William Stokoe, Dorothy Casterline, and Carl Croneberg published their Dictionary of American Sign Language on Linguistic Principles in 1965 \cite{Wilcox1991}.
 \newline
-\indent When it comes to motion gesture technology, the earliest implementation was made possible through the use of gloves with sensors. Depending on the hand movement, signals were decoded by a computer by mapping a combination of signals to unique gestures \cite{Sharma2015}.  Today, technological advancements allow programmers to develop tools that deal with the likes of motion gesture recognition, without the use of any external equipment, aside from cameras. Specifically, Open Source Computer Vision (OpenCV) is one of those tools that provide a set of functionalities to be integrated with programming languages such as Python, allowing real-time manipulation of what a computer sees.
+\indent When it comes to motion gesture technology, the earliest implementation was made possible through the use of gloves with sensors. Depending on the hand movement, signals were decoded by a computer by mapping a combination of signals to unique gestures \cite{Sharma2015}.  Today, technological advancements allow programmers to develop tools that deal with the likes of motion gesture recognition, without the use of any external equipment aside from cameras.
 \newline
 \indent Another technological advancement which will make this study feasible is the existence of Artificial Intelligence (AI). AI is a broad topic and one of its use many uses is the implementation of neural networks. A neural network is a set of connected processors or neurons which can be activated to produce a desired idea or result \cite{Schmidhuber2015}. Neural networks have different types but for image-related tasks, a convolutional neural network (CNN) is widely used due to its advantages for image classification or categorization \cite{Wu2016}.
-\newline
-\indent This study aims to develop a mobile application to translate sign language using image or video processing through the implementation of convolutional neural networks in order to fulfill the following:
+
+\subsection{Objectives of the Study}
+This study aims to develop an Android application to translate sign language. Specifically, this study wants to fulfill the following:
 
 \begin{enumerate}
-\item allow not only sign language to text but also vice-versa;
-\item detect and interpret hand gestures regardless of the hand's orientation, color, or size; and
-\item interpret dynamic or moving sign language.
+\item translate user inputted text to sign language using a series of image definitions;
+\item translate user captured sign language to text using convolutional neural networks; and
+\item translate sign language regardless of the hand's orientation or size.
 \end{enumerate}
 
-\indent Being able to translate sign language to text or vice-versa will be beneficial not only for the deaf community but also for those who are aspiring to learn sign language. Moreover, the communication barrier between the deaf and non-deaf community will be minimized since they will have accessible translators.
+\subsection{Significance of the Study}
+\indent Being able to translate sign language to text or vice-versa will be beneficial not only for the deaf community but also for those who are aspiring to learn sign language. Moreover, the communication barrier between the deaf and non-deaf community will be minimized since they will have an accessible translator through this developed mobile application.
 \newline
-\indent Given that sign language has many variations, it would be difficult to consider these variations all at once because of the existence of overlapping meanings among gestures. Thus, ASL will be used as the standard vocabulary of this study to prevent ambiguities that may arise during implementation.
+\indent Those who are trying to learn sign language will find the text to sign language useful while those who just want to translate sign language can simply use the sign language to text feature. Both of these features do not require any internet connectivity.
 \newline
-\indent The application will cater to mobile users since there are not many viable real-time sign language translators for public use. Since the processors of modern phones are not as powerful as actual computers, the application that will be developed from this study will require internet connectivity to connect to a server that will translate the sign language and train the CNN as more gestures get added to the network.
+\indent In addition, most of the early sign language translators require the use of expensive devices such as smart gloves. This application can be a cheaper alternative since smartphones are accessible and normal users can easily use the application without any additional setup. 
+
+\subsection{Scope and Limitations of the Study}
+\indent Given that sign language has many variations, it would be difficult to consider these variations all at once because of the existence of overlapping meanings among gestures. Thus, ASL was used as the standard vocabulary of this study to prevent ambiguities that may arise during implementation.
+\newline
+\indent Lastly, the data gathered was limited to the demographics of the University of the Philippines Los Ba\~{n}os area. Therefore, the model might not be able to translate hands of extremely light or dark complexion.
+\newline
 
 % RELATED LITERATURE
 \section{Related Literature}
 For several decades, understanding the deaf community has become a major challenge. Sign language, despite its many variations, is one of the most effective methods that allow the better communication between the deaf and the non-deaf community. Several studies have been conducted to further allow translation of sign language without actually learning the language. One of the most popular is the use of digital image processing as a prerequisite in translation methods such as support vector machines and neural networks.
 
-\subsection{Digital Image Processing}
-An image is defined as a two-dimensional function, f(x,y), where x and y are the plane coordinates and the amplitude of f at any coordinate (x,y) is called the intensity of the image at that point \cite{Gonzalez2002}. The intensity of the points would usually have three values representing the Red Green Blue (RGB) color model. Another dimension can be added to RGB which is called RGBa where a is the alpha value that dictates the opacity of the point. These points are called pixels and given that images contain a set of pixels, these pixels can then be interpreted through the use of digital image processing.
-\newline
-\indent As for digital image processing, it refers to processing digital images by means of a digital computer. This process is done for many reasons, one of which is to enhance the image quality for human interpretation and another is to improve autonomous machine perception \cite{AbriolSantos12018}.
-\newline
-\indent One common method used in digital image processing is converting a colored image to grayscale. This method will remove the different colors of an image, rendering it to have shades of gray only. Grayscale conversion is usually done during pre-processing and it is achieved by changing every pixel value of an image with the mean of the current pixel's RGB values.
-\newline
-\indent The ability to turn an image to grayscale will make it easier to interpret the image's values due to the limited amount of color. However, some processes require taking it a step further by converting an image to binary. This means that for every pixel of the image, it would only be either one or zero. Converting an image to binary is done with the use of thresholds.
-\newline
-\indent Lastly, another important method done in image processing that is also relevant to this study is edge detection. Edges are the boundaries between the regions of an image; edges could also be referred to as the outline of the objects in an image \cite{Sharma2013}. Edge detection is useful because it reduces the amount of data and it filters out useless information, at the same time, preserves the important structural properties of an image.
-
 \subsection{Previous Studies on Sign Language Translation}
 Throughout the years, a lot of implementations regarding sign language translation have been developed.
 \newline
-\indent One implementation is done with the help of a Support Vector Machine (SVM). An SVM is used for analyzing data through classification, regression, and outliers detection. Additionally an SVM is a supervised machine learning algorithm that is reliant on plotted data points. Villamor \cite{Villamor2018} was able to utilize an SVM in sign language translation through the following process: first, given an input image, the background and hand are identified. After that, the features of the hand are detected, examples of these features are the center of the palm, finger defect points, and finger vectors. These data are then plotted in an n-dimensional space, where n is the number of features. Once the points are plotted, the image is classified by finding the difference of two sets of points. The classification may be in a form of labels or definitions and in this case, Villamor classified a hand gesture according to its definition.
+\subsubsection{Support Vector Machine}
+One implementation was done with the help of a Support Vector Machine (SVM). An SVM is used for analyzing data through classification, regression, and outliers detection. Additionally, an SVM is a supervised machine learning algorithm that is reliant on plotted data points. Villamor \cite{Villamor2018} was able to utilize an SVM in sign language translation through the following process: first, given an input image, the background and hand are identified. After that, the features of the hand are detected, examples of these features are the center of the palm, finger defect points, and finger vectors. These data are then plotted in an n-dimensional space, where n is the number of features. Once the points are plotted, the image is classified by finding the difference of two sets of points.
 \newline
-\indent Another method that was used in translating sign language is color segmentation and neural networks. For this method, Akmeliawati \cite{Akmeliawati2007} used custom-made gloves to gather necessary data from the signer. Since there is a lot of unwanted data captured in an image or video, the frames were segmented according to the color that was visible in the gloves. This makes the translation easier since the program expects certain colors for each feature like yellow for the palm, purple for the thumb, red for the index and ring finger, and blue for the middle and pinky finger.
+\subsubsection{Color Segmentation and Neural Networks} 
+Another method that was used in translating sign language is color segmentation and neural networks. For this method, Akmeliawati \cite{Akmeliawati2007} used custom-made gloves to gather necessary data from the signer. Since there is a lot of unwanted data captured in an image or video, the frames were segmented according to the color that was visible in the gloves. This makes the translation easier since the program expects certain colors for each feature like yellow for the palm, purple for the thumb, red for the index and ring finger, and blue for the middle and pinky finger.
 \newline
-\indent The fingers produce data which are called vectors. A vector is a collection of numbers and for each finger, there is one xyvector giving a total of five xyvectors per hand. The weights of the data from these vectors are then fed into a neural network, to be specific, an artificial neural network (ANN). The ANN that Akmeliawati used had three neural networks: one for recognizing the alphabet, another for numbers, and the third one for word signs. After traversing these layers, a value will be returned if ever the ANN correctly classifies the input gesture. The use of color segmentation and ANN allowed Akmeliawati to detect dynamic signs such as fingerspelling. However, the slight disadvantage this has with the SVM is that external equipment is needed.
-
-\subsection{Neural Network}
-Based on basic neurobiology, a human brain consists of billions of nerve cells or neurons. These neurons communicate through electrical signals in the voltage of the cell wall or membrane. Essentially, each neuron receives thousands of connections from other neurons resulting to a multitude of incoming signals which reach the cell body \cite{Gurney1997}. Therefore, a connection of neurons can be called a neural network. In computer science terms, a neural network is called as is but it can also be referred to as an artificial neural network (ANN).
+\indent The fingers produce data which are called vectors. A vector is a collection of numbers and for each finger, there is one xyvector giving a total of five xyvectors per hand. The weights of the data from these vectors are then fed into a neural network, to be specific, an artificial neural network (ANN). The ANN that Akmeliawati used had three neural networks: one for recognizing the alphabet, another for numbers, and the third one for word signs. After traversing these layers, a value will be returned if ever the ANN correctly classifies the input gesture. The use of color segmentation and ANN allowed Akmeliawati to detect dynamic signs such as fingerspelling.
 \newline
-\indent An artificial neural network contains a set of processing units or nodes which simulate neurons and are interconnected by a set of weights. These weights are numerical and are passed onto the nodes. The nodes are simple computing elements that would mimic the behavior of neurons by comparing the current weight with a threshold. This process is called the activation function where if the threshold of the current node is exceeded by the input weight, the node activates and it can pass the weight to other connected nodes until it reaches a certain output \cite{Cross1995}.
-\newline
-\indent As opposed to real neural networks, artificial neural networks have a predefined structure. An artificial neural network has an input layer, an output layer, and hidden layers in between. The number of neurons in the input layer is dependent on the number of features in a given data set. After an input is sent to the input layer, it is then fed into the hidden layers. There can be any amount of hidden layers depending on the network model and data size. Each hidden layer can also vary in the number of neurons or nodes but generally, the nodes are greater than the number of features. The result from each layer is computed by getting the product from the matrix multiplication of the previous layer's output with the learnable weights of the current layer and by adding learnable biases, followed by the activation function. Finally, the output from the hidden layers is fed into a logistic function such as a sigmoid which converts the output of each class into the probability score of each class \cite{MishraND}. The equation for a sigmoid function is given by:
-\newline
-\begin{equation}
-\sigma(x) = \frac{1}{1+e^{-x}}
-\end{equation}
-\newline
-\indent Errors are inevitable when transitioning from one layer to another which is why there are methods that attempt to minimize them. One common error reduction method is backpropagation. Backpropagation is done by comparing the output of the network with the true output while propagating the error back through the network, altering the weights and biases of the connections between the network elements to make the network's response more accurate next time \cite{Cross1995}.
-
-\subsection{Convolution}
-In digital image processing, the characteristics of an image are often modified. The modification is done through convolution and the output can be a smoothened, sharpened, intensified, or enhanced image. In addition, the process of convolution can result to the edges of an image. Therefore, a convolution can be defined as a general purpose filter effect for images \cite{Ludwig2007}. To be able to apply convolution, kernels are used. A kernel is a matrix of numbers which is of the size N x N where N is an odd number. An example of a kernel is given by:
-\newline
-\begin{equation}
-\begin{bmatrix}
-1&2&1\\ 
-2&4&2\\ 
-1&2&1 
-\end{bmatrix}
-\end{equation}
-\newline
-\indent The convolution formula is defined by the equation:
-\newline
-\begin{equation}
-O(x,y) = \left | \frac{\sum_{i=-(n-1)/2}^{(n-1)/2} \sum_{j=-(n-1)/2}^{(n-1)/2}f\textsubscript{ij}d\textsubscript{ij}}{F} \right |
-\end{equation}
-\newline
-\indent In the formula above, O(x,y) is the output pixel, x y of image O; n is the size of the convolution kernel; f\textsubscript{ij} is the value of the kernel at i,j; d\textsubscript{ij} is the value at pixel i,j; and F is the sum of values of the kernel \cite{AbriolSantos22018}.
-
+\subsubsection{3D Trajectory Matching with Kinect}
+Chai \cite{Chai} utilized Kinect by using its hand tracking technology. Through the hand tracking, a 3D trajectory was obtained which was then normalized through linear resampling. Normalization was done due to the differences in hand motion speed. After that, an existing gallery trajectory was used for the existing definitions and the input trajectory was aligned to get the recognition result.
 \subsection{Convolutional Neural Network}
-Convolutional neural networks (CNNs) are similar to traditional neural networks in a sense that they are comprised of neurons that are optimized through learning. Each node or neuron will still receive an input and perform activation functions. The main difference is that CNNs are primarily used for pattern recognition with images \cite{OShea2015}.
+Convolutional neural networks (CNNs) are similar to traditional neural networks in the sense that they are comprised of neurons that are optimized through learning. Each node or neuron will still receive an input and perform activation functions. The main difference is that CNNs are primarily used for pattern recognition with images \cite{OShea2015}.
 \newline
 \indent O'Shea \cite{OShea2015} states that one of the largest limitations of regular neural networks is the lack of computational power required to compute data from images. Handwritten digits can be viable in regular neural networks since the image dimensions could be as small as 28 x 28. However, if we take a larger colored image input of 64 x 64, then the number of neurons for the first layer increases to an overwhelmingly large number of 12,288.
 \newline 
-\indent With traditional neural networks, there is a minimum of three layers: the input, output, and hidden layers in between. In CNN, there are additional layers namely: convolutional layer, pooling layer, and fully-connected layers. The process of recognizing an image in CNN is done by passing an input image to the input layer. The input layer will hold the pixel values of the image. Next, the convolutional layer will compute for the output of the neurons. The output is then passed to the pooling layer which will reduce the number of activation parameters by downsampling through a rectified linear unit (ReLu). After that, the fully-connected layers will attempt to produce a probability classification of each class, similar to that of an artificial neural network. Note that convolution and pooling may be done several times to arrive at higher level features of the image.
+\indent With traditional neural networks, there is a minimum of three layers: the input, output, and hidden layers in between. In CNN, there are additional layers namely: convolutional layer, pooling layer, and fully-connected layers. The process of recognizing an image in CNN is done by passing an input image to the input layer. The input layer will hold the pixel values of the image. Next, the convolutional layer will compute for the output of the neurons. The output is then passed to the pooling layer which will reduce the number of activation parameters by downsampling through a rectified linear unit (ReLu). This allows images of higher resolutions to be processed. After that, the fully-connected layers will attempt to produce a probability classification of each class.
+\newline
+\indent
+The classification of high resolution images using convolutional neural network was emphasized in a study conducted by Krizhevsky \cite{Krizhevsky2012}. His deep convolutional network was trained to classify 1.2 million high-resolution images in the ImageNet LSVRC-2010 contest. The model had a top-1 error rate of 37.5 percent and a top-5 error rate of 17 percent.
 
-% MATERIALS AND METHODS
+\subsection{TensorFlow and Inception-v3}
+TensorFlow is an open source platform for machine learning created by Google. It has a lot of models available for use and one of it is the Inception-v3 model. This model is a convolutional neural network trained for the ImageNet Large Visual Recognition Challenge using data from 2012 \cite{Szegedy2014}.
+\newline
+\indent The model produced a top-5 error rate of 3.46 percent. Its architecture can be seen below:
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{./images/inception.png}
+    \caption{Inpcetion-v3 Architecture}
+    \label{fig:inception}
+\end{figure}
+
+\indent With a model available such as Inception-v3, retraining can be done to modify its bottlenecks and create unique classifications such as sign language translation.
+
+% METHODOLOGY
 \section{Methodology}
-This study will focus on translating different hand gestures to their respective definitions in ASL. An Android application will serve as the user interface and in order to correctly classify the hand gestures, a computer program will be implemented using Python along with other utilities. The whole translation process will be done in a separate Python server to minimize the heavy processes done on the mobile phone.
 
 \subsection{System Requirements}
-The following will be used to develop and implement the mobile application:
+The following were used used to develop the Android application:
 
 \begin{itemize}
-    \item A smartphone running on Android version 5.1.1 or higher for the user interface;
-    \item Android Studio version 3.2.1 or higher for creating the mobile application;
-    \item Windows or Linux operating system to run the Python server;
-    \item Python version 3.6 or higher and Python Flask 1.0 or higher for creating the server;
-    \item OpenCV version 3.4.2 or higher for digital image processing; and
-    \item TensorFlow version 1.0 or higher for CNN development.
+    \item A smartphone running on Android version 5.1.1 or higher for running the application;
+    \item Android Studio version 3.2.1 or higher for creating the application;
+    \item Python 3.7.1 for using scripts in model training;
+    \item Conda 4.5.12 for creating a virtual environment for TensorFlow; and
+    \item TensorFlow version 1.0 for the Inception-v3 retraining.
 \end{itemize}
 
-\subsection{Data Gathering}
-The data that will be used in this study will be sign language gestures that are available from different sources such as Google's Dataset Toolbox and Kaggle, a site where a community of data scientists freely share their data and machine learning information. In addition, the researcher will also take his own pictures for the accumulation of more hand gestures. The amount of training data to be used is around 500 images per gesture but more than that is better.
-
-\subsection{Mobile Application}
-The mobile application will be named ``Sign Me Up!'' which will have three functionalities: one for translating sign language to text, another for translating text to sign language, and lastly, one for adding a new gesture. It will be made available for Android using Android Studio as the integrated development environment (IDE). The wireframe can be seen in the appendix.
-
-\subsection{Translation}
-The process of translating text to sign language will just be dependent on the gestures available. A sequence of images will be shown per letter or phrase that needs to be translated. However, the process of translating sign language to text can be found in Figure 1. Note that all the steps in translating sign language to text will be implemented using Python as the programming language, OpenCV for digital image processing, and Tensorflow for CNN development.
-\newline
-\newline
-\newline
-\newline
-\newline
+\subsection{Android Application}
+The Android application is named "Sign Me Up''. It has two functionalities: one for translating sign language to text, and another for translating text to sign language. The home screen along with the icon of the application can be seen in Figure \ref{fig:home}:
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=1\linewidth]{./images/methodology.png}
-    \caption{Sign Language to Text Translation}
-    \label{fig:label1}
+    \includegraphics[width=0.75\linewidth]{./images/screen_home.png}
+    \caption{Home Screen}
+    \label{fig:home}
 \end{figure}
 
-\subsubsection{Labeling the Data}
-Once enough data has been gathered, all the images per gesture will be stored in an individual folder and labels will be manually added depending on the definition of the gestures in ASL.
-\newline
-\subsubsection{Image Processing}
-Before using the available data, each image must first be processed using OpenCV. All images will be resized to 50x50 pixels using OpenCV's resize function. After that, the images will be converted to grayscale and then to binary using adaptive thresholding. Other preprocessing methods such as sharpening or enhancing images will be used if deemed necessary.
-\newline
-\subsubsection{Building the Model}
-After processing the images, the model can now be created. The input layer will hold all the pixel values of the image. The hidden layers will contain N convolution and pooling layers before being stacked into a fully-connected layer. The output of probabilities will be dependent on the gestures that were defined in the labeled data. For this CNN model, the activation function to be used is a Rectified Linear Unit (ReLu) which is given by:
+\subsection{Vocabulary}
+A total of 50 definitions were used. However, all the definitions are only available in text to sign language and a subset was used for sign language to text. The vocabulary can be seen in Figure \ref{fig:vocabulary}. 
 
-\begin{equation}
-R(x) = max(0,x)
-\end{equation}
-\indent The ReLu removes all negative values from the filtered images and replaces it with zeros in order to prevent the values from summing up to zero.
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{./images/screen_vocabulary.png}
+    \caption{Vocabulary Screen}
+    \label{fig:vocabulary}
+\end{figure}
+
+\subsection{Data Gathering}
+All data were gathered from random people in the University of the Philippines Los Ba\~{n}os. In sign language to text, only a subset of the vocabulary was used. These definitions are: the \textit{alphabet, yes, no, that, hi/hello,} and \textit{okay/good job} for a total of 31 gestures. Sample data is shown in Figure \ref{fig:data}.
 \newline
-\indent Once the model is supplied with the appropriate parameters such as the number of filters and stride size for the convolution and the window size for the pooling layer, the loss can be calculated using categorical cross entropy.
+\indent For every gesture, 40 people's hands were captured. The skin tone of the respondents were mostly fair to tan. All images were then flipped to cover the left and right-handed gestures, which added up to 80 pictures per gesture --- with a total of 2,480 data.
 \newline
-\subsubsection{Categorical Cross Entropy}
-It is important to minimize any loss in the CNN and one way to do that is to tune the parameters during training. To be able to calculate for the loss or degree of error, a categorical cross entropy function will be used. Its formula is given by:
-\begin{equation}
--\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C}1y_{i}\epsilon C_{c} logp_{model}[y_{i} \epsilon C_{c}]
-\end{equation}
-\indent In the formula above, the double summation is over the number of observations i whose number is N and the categories c whose number is C. The term 1y\textsubscript{i} is the indicator of the ith observation belonging to the cth category. This function returns a vector of C probabilities.
+\indent The specifications of the camera used in data gathering can be found in Table I.
+
+\begin{table}[ht!]
+\centering
+\caption{Camera specifications}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Model}            & OPPO A37           \\ \hline
+\textbf{Camera}           & 8 MP               \\ \hline
+\textbf{Image Resolution} & 2448 x 2448 Pixels \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{./images/data.png}
+    \caption{Sample Data}
+    \label{fig:data}
+\end{figure}
+
+\subsection{Text to Sign Language}
+The definitions available were mapped to a single reference photo. If the gesture involves movement, then the picture has a silhouette of a moving hand.
 \newline
-\subsubsection{Adam Optimizer}
-The Adam Optimizer is the most complex part of the CNN and is the default go-to optimizer. It is used to update the weights of the network in order to arrive at better results. This optimization method is already available for ease of use in the Tensorflow API. Ideally, a slower learning rate is preferred since a smaller step size would lead to better approximations.
+\indent Every input is checked to see if there are special characters. If there are any, the application will simply return an error message. Otherwise, the output will produce a series of images depending on the input of the user. It will first check if the input exists in the words available, if not, the words will be spelled out. Sample outputs can be seen in Figure \ref{fig:tts_result} and Figure \ref{fig:tts_error}.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{./images/screen_tts_result.png}
+    \caption{Sample Result}
+    \label{fig:tts_result}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{./images/screen_tts_error.png}
+    \caption{Invalid Input}
+    \label{fig:tts_error}
+\end{figure}
+
+
+\subsection{Sign Language to Text}
+\subsubsection{Retraining Inception-v3}
+In order to classify the gestures, a convolutional neural network was used. Specifically, Inception-v3 was retrained so that the labels produced by the model are the definitions available for translation.
 \newline
-\subsubsection{Training}
-Lastly, the epochs refer to the number of iterations that the CNN will train for. Once the network is done training, translation can be done by using the detected hand gestures from the camera as input.
+\indent This process is called transfer learning. From the old top/results layer of Inception-v3, a new layer was trained using the data gathered to fit the pretrained model. Out of the 2,480 data with 80 images per gesture, only 75 images per gesture were used for the training and validation. The remaining five images per gesture were used for testing.
+\newline
+\indent For the training itself, a total of 8000 epochs or training steps with a learning rate of 1 percent was used.
+\newline
+\subsubsection{Loading the Model in the Application}
+Before using the model, it was optimized to reduce the pre-processing of the application and to reduce the size of the package. But optimizing was not enough because the size of the model was too big and unsuitable for mobile phones. This issue was addressed by quantizing the optimized model.
+\newline
+\indent Quantization was needed since majority of the space taken up by the model/output graph is from the weights or the large blocks of floating point numbers. Quantizing the weight of the networks helped in reducing the model's size. After this, the model was then loaded in the Android application.
 \newline
 \subsubsection{Getting Input}
-The smartphone's camera will serve as the source of input for translation. But before being able to extract any data from it, the hand must be detected first. Hand detection will be done by applying background subtraction to the current frame and converting the result to binary. Since there will be a lot of unnecessary elements, the biggest contour must be found which will most likely be the hand. After the contour of the hand is found, it will be the only one filled. This will give us a result of a binary image of the input hand which will be passed into the CNN for translation. A sample input can be seen in the initial results.
-
-% INITIAL RESULTS FOR SP 1
-\section{Initial Results}
-After testing with a laptop's camera, the background can now be subtracted and the program can easily detect a hand. This is assuming that only one hand at a time is being detected and the color of the hand is not similar to the background.
+The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a click of the translate button, the device will capture the image and it will feed it into the model.
+\newline
+\subsubsection{Showing Results}
+When the model is done processing the image, the definition with the highest accuracy that is above the required threshold will be shown right above the translate button.
+\newline
+\indent After testing for the appropriate threshold, a minimum confidence level of 25 percent is required for a result to be returned to give way for similar gestures such as the letter c and o (see Figure \ref{fig:c_sample}). Anything less than that will not return anything as the model will most likely predict it as an invalid gesture. A reset button is also provided for clearing the output text. A successful run can be seen in Figures \ref{fig:stt_initial} and \ref{fig:stt_result}.
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=.8\linewidth]{./images/init1.png}
-    \caption{Hand detection 1}
-    \label{fig:label1}
+    \includegraphics[width=1\linewidth]{./images/c_sample.png}
+    \caption{31.72\% letter c (CORRECT)}
+    \label{fig:c_sample}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=.8\linewidth]{./images/init2.png}
-    \caption{Hand detection 2}
-    \label{fig:label1}
+    \includegraphics[width=1\linewidth]{./images/screen_stt_initial.png}
+    \caption{Left to Right: Initial and Translating Screens}
+    \label{fig:stt_initial}
 \end{figure}
 
-% RESULTS AND DISCUSSION
-% \section{Results and Discussion}
-% No results yet
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{./images/screen_stt_result.png}
+    \caption{Result Screen}
+    \label{fig:stt_result}
+\end{figure}
 
-% CONCLUSION AND FUTURE WORK
-% \section{Conclusion and Future Work}
-% No conclusion yet
+% REUSLTS AND DISCUSSION
+\section{Results and Discussion}
+
+Out of the 2,480 data, five images per gesture were taken to test the accuracy of the model. For the metrics, the confidence level, top-1 accuracy rate, and top-5 accuracy rate were used. 
+\newline
+\indent The confidence level indicates the certainty of the prediction. The top-1 accuracy rate determines the rate at which the gesture was translated correctly. And lastly, the top-5 accuracy rate notes how often the target label was predicted within the five most probable guesses.
+\newline
+\indent Table II shows the mean confidence level during the testing phase, along with the top-1 and top-5 accuracy rates (in percentages).
+
+\begin{table}[ht!]
+\centering
+\caption{Results from testing five images per gesture}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Gesture}} & \textbf{Confidence} & \textbf{Top-1 Accuracy} & \textbf{Top-5 Accuracy} \\ \hline
+a                                      & 62.4498                   & 80                      & 80                      \\ \hline
+b                                      & 27.1096                   & 20                      & 100                     \\ \hline
+c                                      & 91.5403                   & 100                     & 100                     \\ \hline
+d                                      & 75.4884                   & 100                     & 100                     \\ \hline
+e                                      & 71.3239                   & 100                     & 100                     \\ \hline
+f                                      & 69.2242                   & 100                     & 100                     \\ \hline
+g                                      & 47.1842                   & 80                      & 100                     \\ \hline
+h                                      & 88.2374                   & 100                     & 100                     \\ \hline
+hello/hi                             & 71.6996                   & 100                     & 100                     \\ \hline
+i                                      & 71.6996                   & 60                      & 80                      \\ \hline
+j                                      & 57.5536                   & 80                      & 100                     \\ \hline
+k                                      & 38.9782                   & 60                      & 100                     \\ \hline
+l                                      & 73.5850                   & 100                     & 100                     \\ \hline
+m                                      & 35.2467                   & 60                      & 100                     \\ \hline
+n                                      & 55.8013                   & 80                      & 100                     \\ \hline
+no                                     & 58.3989                   & 80                      & 100                     \\ \hline
+o                                      & 79.4044                   & 100                     & 100                     \\ \hline
+okay/good job                        & 97.8182                   & 100                     & 100                     \\ \hline
+p                                      & 75.8770                   & 100                     & 100                     \\ \hline
+q                                      & 45.2842                   & 60                      & 100                     \\ \hline
+r                                      & 43.0818                   & 100                     & 100                     \\ \hline
+s                                      & 56.6103                   & 80                      & 100                     \\ \hline
+t                                      & 34.6972                   & 60                      & 60                      \\ \hline
+that                                   & 78.4250                   & 80                      & 100                     \\ \hline
+u                                      & 57.2008                   & 80                      & 100                     \\ \hline
+v                                      & 55.1236                   & 80                      & 100                     \\ \hline
+w                                      & 66.2519                   & 80                      & 100                     \\ \hline
+x                                      & 39.9979                   & 80                      & 100                     \\ \hline
+y                                      & 73.9857                   & 80                      & 100                     \\ \hline
+yes                                    & 58.3642                   & 80                      & 100                     \\ \hline
+z                                      & 42.2726                   & 80                      & 100                     \\ \hline
+\end{tabular}
+\end{table}
+
+Gestures with low confidence level do not necessarily entail that the model fails to correctly classify them. Since most of the features of the hands are similar, gestures that look like one another can affect the confidence levels. An example can be seen in Figure \ref{fig:wrong_results} where the predictions for m and n were switched. 
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{./images/wrong_results.png}
+    \caption{Left to Right: m classified as n and n classified as m}
+    \label{fig:wrong_results}
+\end{figure}
+
+\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the produced confidence level will be lower since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label is still part of the top-5 predictions.
+\newline
+\indent There were gestures with perfect predictions, namely: \textit{c, d, e, f, h, hello/hi, l, o, okay/good job, p,} and \textit{r}. However, this does not guarantee that the model will be able to perfectly predict these gestures all the time. The gestures which produced inaccurate predictions can be found in Table III along with the gestures they were confused with.
+
+\begin{table}[ht!]
+\centering
+\caption{Wrong predictions - these predictions happened at most one time except for b = f which occurred two times out of five test cases}
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Gesture}} & \multicolumn{1}{c|}{\textbf{Wrong Predictions}}         \\ \hline
+a                                      & - s                                                     \\ \hline
+b                                      & \begin{tabular}[c]{@{}l@{}}- f\\ - k\\ - v\end{tabular} \\ \hline
+g                                      & - h                                                     \\ \hline
+i                                      & \begin{tabular}[c]{@{}l@{}}- f\\ - n\end{tabular}       \\ \hline
+j                                      & - h                                                     \\ \hline
+k                                      & \begin{tabular}[c]{@{}l@{}}- v\\ - w\end{tabular}       \\ \hline
+m                                      & \begin{tabular}[c]{@{}l@{}}- i\\ - n\end{tabular}       \\ \hline
+n                                      & - m                                                     \\ \hline
+no                                     & - z                                                     \\ \hline
+q                                      & \begin{tabular}[c]{@{}l@{}}- o\\ - x\end{tabular}       \\ \hline
+s                                      & - n                                                     \\ \hline
+t                                      & \begin{tabular}[c]{@{}l@{}}- y\\ - o\end{tabular}       \\ \hline
+that                                   & - y                                                     \\ \hline
+u                                      & - r                                                     \\ \hline
+v                                      & - w                                                     \\ \hline
+w                                      & - v                                                     \\ \hline
+x                                      & - v                                                     \\ \hline
+y                                      & - n                                                     \\ \hline
+yes                                    & - a                                                     \\ \hline
+z                                      & - r                                                     \\ \hline
+\end{tabular}
+\end{table}
+
+% CONCLUSION
+\section{Conclusion}
+Translating sign language to text using convolutional neural networks is a feasible approach. It is powerful and compared to other neural networks, it can work with high resolution images. However, a significant amount of training data is needed to make the model more accurate. Further optimization is required to speed up the sign language to text feature. Detecting moving gestures was not achieved aside from looking at the most significant frame due to the delays of retrieving the predictions. 
+
+% RECOMMENDATION
+\section{Recommendation}
+One of the biggest challenges in implementing sign language translators is the translation of moving gestures. If the application could be optimized more so that the capturing of the images and returning of the results are faster, then the frames can be chained to check if the gesture being done is correct. Otherwise, another approach or model may be more appropriate in solving this issue. Other rooms for improvement are as follows:
+\newline
+\subsubsection{Data Gathering}
+It is highly recommended to have a larger data set when retraining the model. As much as possible, try to consider different skin tones and hand sizes. To add, be more strict with the lighting conditions and minimize shadows. Make sure that the signer knows the correct form and make the gestures uniform with little to no differences.
+\newline
+\subsubsection{Model Optimization}
+Even with the optimization methods done in this study, the model can be made lighter if emerging technologies such as TensorFlow Lite are used. Models built for mobile applications such as MobileNet can also be used for faster results.
+\newline
+\subsubsection{Interface}
+Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text.
 
 % BIBLIOGRAPHY
 \bibliographystyle{./IEEE/IEEEtran}
 \bibliography{./cs190}
-
-% APPENDIX
-\appendix
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=.95\linewidth]{./images/1.png}
-    \caption{Menu screen}
-    \label{fig:label1}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=.95\linewidth]{./images/2.png}
-    \caption{First functionality}
-    \label{fig:label2}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=.95\linewidth]{./images/3.png}
-    \caption{Second functionality}
-    \label{fig:label3}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=.95\linewidth]{./images/4.png}
-    \caption{Third functionality}
-    \label{fig:label4}
-\end{figure}
 
 \end{document}
  
