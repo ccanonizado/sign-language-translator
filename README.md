@@ -2,9 +2,7 @@
 
 An Android Sign Language Translator Using Convolutional Neural Networks
 
-![alt text](./journal/images/screen_home.png "Sign Me Up")
-
-___
+<img src="./journal/images/screen_home.png" width="240" height="400" />
 
 SP output for CMSC 190 (ICS-UPLB) by *Carlos Miguel E. Canonizado* **(Advisee)** and *Jaime M. Samaniego* **(Adviser)**
 
