@@ -94,6 +94,7 @@ if __name__ == "__main__":
   parser.add_argument("--input_std", type=int, help="input std")
   parser.add_argument("--input_layer", help="name of input layer")
   parser.add_argument("--output_layer", help="name of output layer")
+  parser.add_argument("--label", help="target label")
   args = parser.parse_args()
 
   if args.graph:
@@ -114,6 +115,8 @@ if __name__ == "__main__":
     input_layer = args.input_layer
   if args.output_layer:
     output_layer = args.output_layer
+  if args.label:
+    label = args.label
 
   graph = load_graph(model_file)
   t = read_tensor_from_image_file(
@@ -136,5 +139,10 @@ if __name__ == "__main__":
 
   top_k = results.argsort()[-5:][::-1]
   labels = load_labels(label_file)
+
+  # f = open("../results/results_raw.txt", "a")
+  # f.write(label + "\n")
   for i in top_k:
     print(labels[i], results[i])
+    # f.write(str(labels[i]) + " " + str(results[i]) + "\n")
+  # f.close()
