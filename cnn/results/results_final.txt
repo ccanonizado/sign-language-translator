@@ -58,7 +58,7 @@ Top-5-Accuracy: 100.0
 Wrong Predictions: 
 ==================================================
 i:
-Confidence: 71.6996
+Confidence: 32.8537
 Top-1-Accuracy: 60.0
 Top-5-Accuracy: 80.0
 Wrong Predictions: 
@@ -211,3 +211,6 @@ Top-5-Accuracy: 100.0
 Wrong Predictions: 
      r: 1
 ==================================================
+Confidence Average: 60.0345
+Top-1-Accuracy Average: 81.9355
+Top-5-Accuracy Average: 97.4194
