@@ -28,7 +28,7 @@
 
 % ABSTRACT
 \begin{abstract}
-Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. There are limited translators available for public use which includes text to sign language and vice-versa. Sign Me Up is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks to translate gestures from the user and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the application gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other.
+Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. There are limited translators available for public use which includes text to sign language and vice-versa. "Sign Me Up" is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks to translate gestures from the user and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the application gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other. An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
 \end{abstract}
 
 % INDEX TERMS
@@ -40,18 +40,18 @@ android, sign language, neural network, convolution, convolutional neural networ
 \section{Introduction}
 
 \subsection{Background of the Study}
-Sign language is a system of communication that has been around for years. Its primary usage is to enable communication between deaf and hearing people. The World Health Organization (WHO) \cite{WHO2018} estimated that by 2050, more than 900 million people will have disabling hearing loss. Given this large estimation, it is problematic that only a small percentage of people actually know how to use sign language. One of the most widely used sign languages is the American Sign Language (ASL). The ASL gained its popularity after William Stokoe, Dorothy Casterline, and Carl Croneberg published their Dictionary of American Sign Language on Linguistic Principles in 1965 \cite{Wilcox1991}.
+Sign language is a system of communication that has been around for years. Its primary usage is to enable communication between the deaf and hearing people. The World Health Organization (WHO) \cite{WHO2018} estimated that by 2050, more than 900 million people will have disabling hearing loss. Given this large estimation, it is problematic that only a small percentage of people actually know how to use sign language. One of the most widely used sign language is the American Sign Language (ASL). The ASL gained its popularity after William Stokoe, Dorothy Casterline, and Carl Croneberg published their Dictionary of American Sign Language on Linguistic Principles in 1965 \cite{Wilcox1991}.
 \newline
 \indent When it comes to motion gesture technology, the earliest implementation was made possible through the use of gloves with sensors. Depending on the hand movement, signals were decoded by a computer by mapping a combination of signals to unique gestures \cite{Sharma2015}.  Today, technological advancements allow programmers to develop tools that deal with the likes of motion gesture recognition, without the use of any external equipment aside from cameras.
 \newline
 \indent Another technological advancement which will make this study feasible is the existence of Artificial Intelligence (AI). AI is a broad topic and one of its use many uses is the implementation of neural networks. A neural network is a set of connected processors or neurons which can be activated to produce a desired idea or result \cite{Schmidhuber2015}. Neural networks have different types but for image-related tasks, a convolutional neural network (CNN) is widely used due to its advantages for image classification or categorization \cite{Wu2016}.
 
 \subsection{Objectives of the Study}
-This study aims to develop an Android application to translate sign language. Specifically, this study wants to fulfill the following:
+This study aims to develop an Android application to translate sign language. Specifically, this study intends to fulfill the following:
 
 \begin{enumerate}
 \item translate user inputted text to sign language using a series of image definitions;
-\item translate user captured sign language to text using convolutional neural networks; and
+\item translate user-captured sign language to text using convolutional neural networks; and
 \item translate sign language regardless of the hand's orientation or size.
 \end{enumerate}
 
@@ -60,7 +60,7 @@ This study aims to develop an Android application to translate sign language. Sp
 \newline
 \indent Those who are trying to learn sign language will find the text to sign language useful while those who just want to translate sign language can simply use the sign language to text feature. Both of these features do not require any internet connectivity.
 \newline
-\indent In addition, most of the early sign language translators require the use of expensive devices such as smart gloves. This application can be a cheaper alternative since smartphones are accessible and normal users can easily use the application without any additional setup. 
+\indent In addition, most of the early sign language translators require the use of expensive devices such as smart gloves. Therefore, this application can be a cheaper alternative since smartphones are accessible and normal users can easily use the application without any additional setup. 
 
 \subsection{Scope and Limitations of the Study}
 \indent Given that sign language has many variations, it would be difficult to consider these variations all at once because of the existence of overlapping meanings among gestures. Thus, ASL was used as the standard vocabulary of this study to prevent ambiguities that may arise during implementation.
@@ -70,18 +70,17 @@ This study aims to develop an Android application to translate sign language. Sp
 
 % RELATED LITERATURE
 \section{Related Literature}
-For several decades, understanding the deaf community has become a major challenge. Sign language, despite its many variations, is one of the most effective methods that allow the better communication between the deaf and the non-deaf community. Several studies have been conducted to further allow translation of sign language without actually learning the language. One of the most popular is the use of digital image processing as a prerequisite in translation methods such as support vector machines and neural networks.
+For several decades, understanding the deaf community has become a major challenge. Sign language, despite its many variations, is one of the most effective methods that allow the better communication between the deaf and the non-deaf community. Several studies have been conducted to further allow translation of sign language without actually learning the language.
 
 \subsection{Previous Studies on Sign Language Translation}
-Throughout the years, a lot of implementations regarding sign language translation have been developed.
-\newline
+
 \subsubsection{Support Vector Machine}
 One implementation was done with the help of a Support Vector Machine (SVM). An SVM is used for analyzing data through classification, regression, and outliers detection. Additionally, an SVM is a supervised machine learning algorithm that is reliant on plotted data points. Villamor \cite{Villamor2018} was able to utilize an SVM in sign language translation through the following process: first, given an input image, the background and hand are identified. After that, the features of the hand are detected, examples of these features are the center of the palm, finger defect points, and finger vectors. These data are then plotted in an n-dimensional space, where n is the number of features. Once the points are plotted, the image is classified by finding the difference of two sets of points.
 \newline
 \subsubsection{Color Segmentation and Neural Networks} 
 Another method that was used in translating sign language is color segmentation and neural networks. For this method, Akmeliawati \cite{Akmeliawati2007} used custom-made gloves to gather necessary data from the signer. Since there is a lot of unwanted data captured in an image or video, the frames were segmented according to the color that was visible in the gloves. This makes the translation easier since the program expects certain colors for each feature like yellow for the palm, purple for the thumb, red for the index and ring finger, and blue for the middle and pinky finger.
 \newline
-\indent The fingers produce data which are called vectors. A vector is a collection of numbers and for each finger, there is one xyvector giving a total of five xyvectors per hand. The weights of the data from these vectors are then fed into a neural network, to be specific, an artificial neural network (ANN). The ANN that Akmeliawati used had three neural networks: one for recognizing the alphabet, another for numbers, and the third one for word signs. After traversing these layers, a value will be returned if ever the ANN correctly classifies the input gesture. The use of color segmentation and ANN allowed Akmeliawati to detect dynamic signs such as fingerspelling.
+\indent This set-up produces data which are called vectors. A vector is a collection of numbers and for each finger, there is one xyvector giving a total of five xyvectors per hand. The weights of the data from these vectors are then fed into a neural network, to be specific, an artificial neural network (ANN). The ANN that Akmeliawati used had three neural networks: one for recognizing the alphabet, another for numbers, and the third one for word signs. After traversing these layers, a value will be returned if ever the ANN correctly classifies the input gesture. The use of color segmentation and ANN allowed Akmeliawati to detect dynamic signs such as fingerspelling.
 \newline
 \subsubsection{3D Trajectory Matching with Kinect}
 Chai \cite{Chai} utilized Kinect by using its hand tracking technology. Through the hand tracking, a 3D trajectory was obtained which was then normalized through linear resampling. Normalization was done due to the differences in hand motion speed. After that, an existing gallery trajectory was used for the existing definitions and the input trajectory was aligned to get the recognition result.
@@ -96,14 +95,14 @@ Convolutional neural networks (CNNs) are similar to traditional neural networks 
 The classification of high resolution images using convolutional neural network was emphasized in a study conducted by Krizhevsky \cite{Krizhevsky2012}. His deep convolutional network was trained to classify 1.2 million high-resolution images in the ImageNet LSVRC-2010 contest. The model had a top-1 error rate of 37.5 percent and a top-5 error rate of 17 percent.
 
 \subsection{TensorFlow and Inception-v3}
-TensorFlow is an open source platform for machine learning created by Google. It has a lot of models available for use and one of it is the Inception-v3 model. This model is a convolutional neural network trained for the ImageNet Large Visual Recognition Challenge using data from 2012 \cite{Szegedy2014}.
+TensorFlow is an open source platform for machine learning created by Google. It provides a diverse selection of models to use for free, and one of them is the Inception-v3 model. This model is a convolutional neural network trained for the ImageNet Large Visual Recognition Challenge using data from 2012 \cite{Szegedy2014}.
 \newline
 \indent The model produced a top-5 error rate of 3.46 percent. Its architecture can be seen below:
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{./images/inception.png}
-    \caption{Inpcetion-v3 Architecture}
+    \caption{Inception-v3 Architecture}
     \label{fig:inception}
 \end{figure}
 
@@ -205,7 +204,7 @@ Before using the model, it was optimized to reduce the pre-processing of the app
 The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a click of the translate button, the device will capture the image and it will feed it into the model.
 \newline
 \subsubsection{Showing Results}
-When the model is done processing the image, the definition with the highest accuracy that is above the required threshold will be shown right above the translate button.
+When the model is done processing the image, the definition with the highest confidence level that is above the required threshold will be shown right above the translate button.
 \newline
 \indent After testing for the appropriate threshold, a minimum confidence level of 25 percent is required for a result to be returned to give way for similar gestures such as the letter c and o (see Figure \ref{fig:c_sample}). Anything less than that will not return anything as the model will most likely predict it as an invalid gesture. A reset button is also provided for clearing the output text. A successful run can be seen in Figures \ref{fig:stt_initial} and \ref{fig:stt_result}.
 
@@ -230,14 +229,20 @@ When the model is done processing the image, the definition with the highest acc
     \label{fig:stt_result}
 \end{figure}
 
-% REUSLTS AND DISCUSSION
+
+\subsection{Evaluation}
+The results from the tests were measured and evaluated with the following metrics:
+\begin{enumerate}
+    \item \textit{Confidence level} - refers to the certainty of the model's prediction.
+    \item \textit{Top-1 accuracy rate} - determines the rate at which the gesture was translated correctly.
+    \item \textit{Top-5 accuracy rate} - notes how often the target label was predicted within the five most probable guesses.
+\end{enumerate}
+
+
+% RESULTS AND DISCUSSION
 \section{Results and Discussion}
 
-Out of the 2,480 data, five images per gesture were taken to test the accuracy of the model. For the metrics, the confidence level, top-1 accuracy rate, and top-5 accuracy rate were used. 
-\newline
-\indent The confidence level indicates the certainty of the prediction. The top-1 accuracy rate determines the rate at which the gesture was translated correctly. And lastly, the top-5 accuracy rate notes how often the target label was predicted within the five most probable guesses.
-\newline
-\indent Table II shows the mean confidence level during the testing phase, along with the top-1 and top-5 accuracy rates (in percentages).
+Out of the 2,480 data, five images per gesture were taken to test the accuracy of the model. Table II shows the mean confidence level during the testing phase, along with the top-1 and top-5 accuracy rates (in percentages).
 
 \begin{table}[ht!]
 \centering
@@ -279,7 +284,9 @@ z                                      & 42.2726                   & 80         
 \end{tabular}
 \end{table}
 
-Gestures with low confidence level do not necessarily entail that the model fails to correctly classify them. Since most of the features of the hands are similar, gestures that look like one another can affect the confidence levels. An example can be seen in Figure \ref{fig:wrong_results} where the predictions for m and n were switched. 
+\indent An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
+\newline
+\indent Gestures with low confidence level do not necessarily entail that the model fails to correctly classify them. Since most of the features of the hands are similar, gestures that look like one another can affect the confidence levels. An example can be seen in Figure \ref{fig:wrong_results} where the predictions for m and n were switched. 
 
 \begin{figure}[ht!]
     \centering
@@ -288,7 +295,7 @@ Gestures with low confidence level do not necessarily entail that the model fail
     \label{fig:wrong_results}
 \end{figure}
 
-\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the produced confidence level will be lower since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label is still part of the top-5 predictions.
+\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the lower the produced confidence level will be since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label is still part of the top-5 predictions.
 \newline
 \indent There were gestures with perfect predictions, namely: \textit{c, d, e, f, h, hello/hi, l, o, okay/good job, p,} and \textit{r}. However, this does not guarantee that the model will be able to perfectly predict these gestures all the time. The gestures which produced inaccurate predictions can be found in Table III along with the gestures they were confused with.
 
@@ -323,7 +330,7 @@ z                                      & - r                                    
 
 % CONCLUSION
 \section{Conclusion}
-Translating sign language to text using convolutional neural networks is a feasible approach. It is powerful and compared to other neural networks, it can work with high resolution images. However, a significant amount of training data is needed to make the model more accurate. Further optimization is required to speed up the sign language to text feature. Detecting moving gestures was not achieved aside from looking at the most significant frame due to the delays of retrieving the predictions. 
+Translating sign language to text using convolutional neural networks is a feasible approach. It is powerful and compared to other neural networks, it can work with high resolution images. However, a significant amount of training data is needed to make the model more accurate. Further optimization is also required to speed up the sign language to text feature. Detecting moving gestures was not achieved aside from looking at the most significant frame due to the delays of retrieving the predictions. 
 
 % RECOMMENDATION
 \section{Recommendation}
@@ -333,7 +340,7 @@ One of the biggest challenges in implementing sign language translators is the t
 It is highly recommended to have a larger data set when retraining the model. As much as possible, try to consider different skin tones and hand sizes. To add, be more strict with the lighting conditions and minimize shadows. Make sure that the signer knows the correct form and make the gestures uniform with little to no differences.
 \newline
 \subsubsection{Model Optimization}
-Even with the optimization methods done in this study, the model can be made lighter if emerging technologies such as TensorFlow Lite are used. Models built for mobile applications such as MobileNet can also be used for faster results.
+Even with the optimization methods done in this study, the model can be made lighter if emerging technologies such as TensorFlow Lite, are used. Models built for mobile applications such as MobileNet can also be used for faster results.
 \newline
 \subsubsection{Interface}
 Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text.
