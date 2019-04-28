@@ -28,12 +28,12 @@
 
 % ABSTRACT
 \begin{abstract}
-Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. There are limited translators available for public use which includes text to sign language and vice-versa. "Sign Me Up" is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks to translate gestures from the user and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the application gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other. An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
+Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. "Sign Me Up" is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks for translating sign language to text and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the retrained model gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other. An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
 \end{abstract}
 
 % INDEX TERMS
 \begin{keywords}
-android, sign language, neural network, convolution, convolutional neural network, inception model
+android, sign language, neural network, convolutional neural network, inception-v3 model
 \end{keywords}
 
 % INTRODUCTION
@@ -50,8 +50,8 @@ Sign language is a system of communication that has been around for years. Its p
 This study aims to develop an Android application to translate sign language. Specifically, this study intends to fulfill the following:
 
 \begin{enumerate}
-\item translate user inputted text to sign language using a series of image definitions;
-\item translate user-captured sign language to text using convolutional neural networks; and
+\item translate user-captured sign language to text using convolutional neural networks;
+\item translate user inputted text to sign language using a series of image definitions; and
 \item translate sign language regardless of the hand's orientation or size.
 \end{enumerate}
 
@@ -143,7 +143,7 @@ A total of 50 definitions were used. However, all the definitions are only avail
 \end{figure}
 
 \subsection{Data Gathering}
-All data were gathered from random people in the University of the Philippines Los Ba\~{n}os. In sign language to text, only a subset of the vocabulary was used. These definitions are: the \textit{alphabet, yes, no, that, hi/hello,} and \textit{okay/good job} for a total of 31 gestures. Sample data is shown in Figure \ref{fig:data}.
+All data were gathered from random people in the University of the Philippines Los Ba\~{n}os. In sign language to text, only a subset of the vocabulary was used. These definitions are: the \textit{alphabet, yes, no, that, hi/hello,} and \textit{okay/good job} for a total of 31 gestures. Each image was also captured with a similar controlled background. Sample data is shown in Figure \ref{fig:data}.
 \newline
 \indent For every gesture, 40 people's hands were captured. The skin tone of the respondents were mostly fair to tan. All images were then flipped to cover the left and right-handed gestures, which added up to 80 pictures per gesture --- with a total of 2,480 data.
 \newline
@@ -189,7 +189,7 @@ The definitions available were mapped to a single reference photo. If the gestur
 
 \subsection{Sign Language to Text}
 \subsubsection{Retraining Inception-v3}
-In order to classify the gestures, a convolutional neural network was used. Specifically, Inception-v3 was retrained so that the labels produced by the model are the definitions available for translation.
+In order to classify the gestures, a convolutional neural network was used. Specifically, the Inception-v3 model was retrained so that the labels produced by the model are the definitions available for translation.
 \newline
 \indent This process is called transfer learning. From the old top/results layer of Inception-v3, a new layer was trained using the data gathered to fit the pretrained model. Out of the 2,480 data with 80 images per gesture, only 75 images per gesture were used for the training and validation. The remaining five images per gesture were used for testing.
 \newline
@@ -198,13 +198,13 @@ In order to classify the gestures, a convolutional neural network was used. Spec
 \subsubsection{Loading the Model in the Application}
 Before using the model, it was optimized to reduce the pre-processing of the application and to reduce the size of the package. But optimizing was not enough because the size of the model was too big and unsuitable for mobile phones. This issue was addressed by quantizing the optimized model.
 \newline
-\indent Quantization was needed since majority of the space taken up by the model/output graph is from the weights or the large blocks of floating point numbers. Quantizing the weight of the networks helped in reducing the model's size. After this, the model was then loaded in the Android application.
+\indent Quantization was needed since majority of the space taken up by the model/output graph is from the weights or the large blocks of floating point numbers. Quantizing the weight of the networks helped in reducing the model's size. After this, the model was loaded in the Android application.
 \newline
 \subsubsection{Getting Input}
-The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a click of the translate button, the device will capture the image and it will feed it into the model.
+The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a press of the translate button, the device will capture the image and it will feed it into the model.
 \newline
 \subsubsection{Showing Results}
-When the model is done processing the image, the definition with the highest confidence level that is above the required threshold will be shown right above the translate button.
+When the model is done processing the image, the definition with the highest confidence level will be shown right above the translate button. The confidence level must be above the required threshold for it to be considered as an acceptable prediction.
 \newline
 \indent After testing for the appropriate threshold, a minimum confidence level of 25 percent is required for a result to be returned to give way for similar gestures such as the letter c and o (see Figure \ref{fig:c_sample}). Anything less than that will not return anything as the model will most likely predict it as an invalid gesture. A reset button is also provided for clearing the output text. A successful run can be seen in Figures \ref{fig:stt_initial} and \ref{fig:stt_result}.
 
@@ -295,7 +295,7 @@ z                                      & 42.2726                   & 80         
     \label{fig:wrong_results}
 \end{figure}
 
-\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the lower the produced confidence level will be since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label is still part of the top-5 predictions.
+\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the lower the produced confidence level will be since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label will most likely be part of the top-5 predictions.
 \newline
 \indent There were gestures with perfect predictions, namely: \textit{c, d, e, f, h, hello/hi, l, o, okay/good job, p,} and \textit{r}. However, this does not guarantee that the model will be able to perfectly predict these gestures all the time. The gestures which produced inaccurate predictions can be found in Table III along with the gestures they were confused with.
 
@@ -343,7 +343,7 @@ It is highly recommended to have a larger data set when retraining the model. As
 Even with the optimization methods done in this study, the model can be made lighter if emerging technologies such as TensorFlow Lite, are used. Models built for mobile applications such as MobileNet can also be used for faster results.
 \newline
 \subsubsection{Interface}
-Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text.
+Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text. Lastly, other camera options such as switching to the front camera can also be a good addition.
 
 % BIBLIOGRAPHY
 \bibliographystyle{./IEEE/IEEEtran}
