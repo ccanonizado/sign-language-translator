@@ -128,6 +128,12 @@ public class SignToText extends AppCompatActivity {
         });
     }
 
+    /*
+
+        This function updates the main result and other results.
+        Words / phrases are checked and the confidence level is converted.
+
+     */
     private void setResultsText(List<Classifier.Recognition> results) {
         String mainResultString = "";
         String otherResultsString = "";
