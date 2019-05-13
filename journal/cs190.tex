@@ -1,7 +1,7 @@
 \documentclass[journal]{./IEEE/IEEEtran}
 \usepackage{cite,graphicx,amsmath,mathtools,caption,fixltx2e,multicol}
 
-\newcommand{\SPTITLE}{Sign Me Up: An Android Sign Language Translator Using Convolutional Neural Networks }
+\newcommand{\SPTITLE}{SIGN ME UP: An Android Sign Language Translator Using A Convolutional Neural Network}
 \newcommand{\ADVISEE}{Carlos Miguel E. Canonizado}
 \newcommand{\ADVISER}{Jaime M. Samaniego}
 
@@ -12,12 +12,13 @@
                              in partial fulfillment of the requirements
                              for the Degree of \BSCS}}
         
-\markboth{CMSC 190 Special Problem, \ICS}{}
+\markboth{2019 ICS Undergraduate Research Symposium}{}
 \title{\SPTITLE}
 \author{\ADVISEE~and~\ADVISER%
 \REMARK
 }
-%\pubid{\copyright~2006~ICS \UPLB}
+\pubid{\copyright~2019~ICS \UPLB}
+\pagenumbering{gobble}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,7 +29,7 @@
 
 % ABSTRACT
 \begin{abstract}
-Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. "Sign Me Up" is an Android application which is designed to translate sign language even offline. It uses convolutional neural networks for translating sign language to text and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the retrained model gained the highest and lowest confidence levels of 97.8182\% and 27.1096\% respectively, affected by gestures similar to each other. An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
+Sign language is widely used by both the deaf and hearing community. However, there is still a lot of people who are not knowledgeable of sign language. "SIGN ME UP" is an Android application which is designed to translate sign language even offline. It uses a convolutional neural network for translating sign language to text and a series of reference images are provided for translating text to sign language. Through retraining the Inception-v3 model, the retrained model gained the highest and lowest confidence levels of 97.82\% and 27.11\% respectively, affected by gestures similar to each other. An average of 60.03\% confidence level was obtained for all gestures while averages of 81.94\% and 97.42\% for the top-1 and top-5 accuracies were obtained.
 \end{abstract}
 
 % INDEX TERMS
@@ -50,8 +51,8 @@ Sign language is a system of communication that has been around for years. Its p
 This study aims to develop an Android application to translate sign language. Specifically, this study intends to fulfill the following:
 
 \begin{enumerate}
-\item translate user-captured sign language to text using convolutional neural networks;
-\item translate user inputted text to sign language using a series of image definitions; and
+\item translate user-captured sign language to text using a retrained convolutional neural network called Inception-v3 model;
+\item translate user-inputted text to sign language using a series of image definitions; and
 \item translate sign language regardless of the hand's orientation or size.
 \end{enumerate}
 
@@ -123,11 +124,11 @@ The following were used used to develop the Android application:
 \end{itemize}
 
 \subsection{Android Application}
-The Android application is named "Sign Me Up''. It has two functionalities: one for translating sign language to text, and another for translating text to sign language. The home screen along with the icon of the application can be seen in Figure \ref{fig:home}:
+The Android application is named "SIGN ME UP''. It has two functionalities: one for translating sign language to text, and another for translating text to sign language. The home screen along with the icon of the application can be seen in Figure \ref{fig:home}.
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.75\linewidth]{./images/screen_home.png}
+    \includegraphics[width=0.58\linewidth]{./images/screen_home.png}
     \caption{Home Screen}
     \label{fig:home}
 \end{figure}
@@ -137,13 +138,13 @@ A total of 50 definitions were used. However, all the definitions are only avail
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.75\linewidth]{./images/screen_vocabulary.png}
+    \includegraphics[width=0.58\linewidth]{./images/screen_vocabulary.png}
     \caption{Vocabulary Screen}
     \label{fig:vocabulary}
 \end{figure}
 
 \subsection{Data Gathering}
-All data were gathered from random people in the University of the Philippines Los Ba\~{n}os. In sign language to text, only a subset of the vocabulary was used. These definitions are: the \textit{alphabet, yes, no, that, hi/hello,} and \textit{okay/good job} for a total of 31 gestures. Each image was also captured with a similar controlled background. Sample data is shown in Figure \ref{fig:data}.
+All images were gathered from random respondents in the University of the Philippines Los Ba\~{n}os. In sign language to text, only a subset of the vocabulary was used. These definitions are: the \textit{alphabet, yes, no, that, hi/hello,} and \textit{okay/good job} for a total of 31 gestures. Each image was also captured with a similar controlled background. Sample data is shown in Figure \ref{fig:data}.
 \newline
 \indent For every gesture, 40 people's hands were captured. The skin tone of the respondents were mostly fair to tan. All images were then flipped to cover the left and right-handed gestures, which added up to 80 pictures per gesture --- with a total of 2,480 data.
 \newline
@@ -174,18 +175,17 @@ The definitions available were mapped to a single reference photo. If the gestur
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.75\linewidth]{./images/screen_tts_result.png}
+    \includegraphics[width=0.58\linewidth]{./images/screen_tts_result.png}
     \caption{Sample Result}
     \label{fig:tts_result}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.75\linewidth]{./images/screen_tts_error.png}
+    \includegraphics[width=0.58\linewidth]{./images/screen_tts_error.png}
     \caption{Invalid Input}
     \label{fig:tts_error}
 \end{figure}
-
 
 \subsection{Sign Language to Text}
 \subsubsection{Retraining Inception-v3}
@@ -201,12 +201,12 @@ Before using the model, it was optimized to reduce the pre-processing of the app
 \indent Quantization was needed since majority of the space taken up by the model/output graph is from the weights or the large blocks of floating point numbers. Quantizing the weight of the networks helped in reducing the model's size. After this, the model was loaded in the Android application.
 \newline
 \subsubsection{Getting Input}
-The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a press of the translate button, the device will capture the image and it will feed it into the model.
+The application's sign-to text feature primarily relies on the device having a camera. Once the user chooses to translate sign language to text, the camera will open and with a press of the translate button, the device will translate each frame through the model.
 \newline
 \subsubsection{Showing Results}
-When the model is done processing the image, the definition with the highest confidence level will be shown right above the translate button. The confidence level must be above the required threshold for it to be considered as an acceptable prediction.
+When the model is done processing a frame, the definition with the highest confidence level will be appended. The confidence level must be above the required threshold for it to be considered as an acceptable prediction.
 \newline
-\indent After testing for the appropriate threshold, a minimum confidence level of 25 percent is required for a result to be returned to give way for similar gestures such as the letter c and o (see Figure \ref{fig:c_sample}). Anything less than that will not return anything as the model will most likely predict it as an invalid gesture. A reset button is also provided for clearing the output text. A successful run can be seen in Figures \ref{fig:stt_initial} and \ref{fig:stt_result}.
+\indent After testing for the appropriate threshold, a minimum confidence level of 20 percent is required for a result to be returned to give way for similar gestures such as the letter c and o (see Figure \ref{fig:c_sample}). Anything less than that will not return anything as the model will most likely predict it as an invalid gesture. The initial look of the screen can be seen in Figure \ref{fig:stt_initial}.
 
 \begin{figure}[ht!]
     \centering
@@ -217,16 +217,9 @@ When the model is done processing the image, the definition with the highest con
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=1\linewidth]{./images/screen_stt_initial.png}
-    \caption{Left to Right: Initial and Translating Screens}
+    \includegraphics[width=0.58\linewidth]{./images/screen_stt_initial.png}
+    \caption{Initial Screen}
     \label{fig:stt_initial}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.75\linewidth]{./images/screen_stt_result.png}
-    \caption{Result Screen}
-    \label{fig:stt_result}
 \end{figure}
 
 
@@ -242,7 +235,7 @@ The results from the tests were measured and evaluated with the following metric
 % RESULTS AND DISCUSSION
 \section{Results and Discussion}
 
-Out of the 2,480 data, five images per gesture were taken to test the accuracy of the model. Table II shows the mean confidence level during the testing phase, along with the top-1 and top-5 accuracy rates (in percentages).
+Out of the 2,480 data, five images per gesture were taken to test the accuracy of the model. All images had a controlled background. Table II shows the mean confidence level during the testing phase, along with the top-1 and top-5 accuracy rates (in percentages).
 
 \begin{table}[ht!]
 \centering
@@ -250,41 +243,41 @@ Out of the 2,480 data, five images per gesture were taken to test the accuracy o
 \begin{tabular}{|l|c|c|c|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Gesture}} & \textbf{Confidence} & \textbf{Top-1 Accuracy} & \textbf{Top-5 Accuracy} \\ \hline
-a                                      & 62.4498                   & 80                      & 80                      \\ \hline
-b                                      & 27.1096                   & 20                      & 100                     \\ \hline
-c                                      & 91.5403                   & 100                     & 100                     \\ \hline
-d                                      & 75.4884                   & 100                     & 100                     \\ \hline
-e                                      & 71.3239                   & 100                     & 100                     \\ \hline
-f                                      & 69.2242                   & 100                     & 100                     \\ \hline
-g                                      & 47.1842                   & 80                      & 100                     \\ \hline
-h                                      & 88.2374                   & 100                     & 100                     \\ \hline
-hello/hi                             & 71.6996                   & 100                     & 100                     \\ \hline
-i                                      & 71.6996                   & 60                      & 80                      \\ \hline
-j                                      & 57.5536                   & 80                      & 100                     \\ \hline
-k                                      & 38.9782                   & 60                      & 100                     \\ \hline
-l                                      & 73.5850                   & 100                     & 100                     \\ \hline
-m                                      & 35.2467                   & 60                      & 100                     \\ \hline
-n                                      & 55.8013                   & 80                      & 100                     \\ \hline
-no                                     & 58.3989                   & 80                      & 100                     \\ \hline
-o                                      & 79.4044                   & 100                     & 100                     \\ \hline
-okay/good job                        & 97.8182                   & 100                     & 100                     \\ \hline
-p                                      & 75.8770                   & 100                     & 100                     \\ \hline
-q                                      & 45.2842                   & 60                      & 100                     \\ \hline
-r                                      & 43.0818                   & 100                     & 100                     \\ \hline
-s                                      & 56.6103                   & 80                      & 100                     \\ \hline
-t                                      & 34.6972                   & 60                      & 60                      \\ \hline
-that                                   & 78.4250                   & 80                      & 100                     \\ \hline
-u                                      & 57.2008                   & 80                      & 100                     \\ \hline
-v                                      & 55.1236                   & 80                      & 100                     \\ \hline
-w                                      & 66.2519                   & 80                      & 100                     \\ \hline
-x                                      & 39.9979                   & 80                      & 100                     \\ \hline
-y                                      & 73.9857                   & 80                      & 100                     \\ \hline
-yes                                    & 58.3642                   & 80                      & 100                     \\ \hline
-z                                      & 42.2726                   & 80                      & 100                     \\ \hline
+a                                      & 62.45                   & 80                      & 80                      \\ \hline
+b                                      & 27.11                   & 20                      & 100                     \\ \hline
+c                                      & 91.54                   & 100                     & 100                     \\ \hline
+d                                      & 75.49                   & 100                     & 100                     \\ \hline
+e                                      & 71.32                   & 100                     & 100                     \\ \hline
+f                                      & 69.22                   & 100                     & 100                     \\ \hline
+g                                      & 47.18                   & 80                      & 100                     \\ \hline
+h                                      & 88.24                   & 100                     & 100                     \\ \hline
+hello/hi                             & 71.70                   & 100                     & 100                     \\ \hline
+i                                      & 71.70                   & 60                      & 80                      \\ \hline
+j                                      & 57.55                   & 80                      & 100                     \\ \hline
+k                                      & 38.98                   & 60                      & 100                     \\ \hline
+l                                      & 73.59                   & 100                     & 100                     \\ \hline
+m                                      & 35.25                   & 60                      & 100                     \\ \hline
+n                                      & 55.80                   & 80                      & 100                     \\ \hline
+no                                     & 58.40                   & 80                      & 100                     \\ \hline
+o                                      & 79.40                   & 100                     & 100                     \\ \hline
+okay/good job                        & 97.82                   & 100                     & 100                     \\ \hline
+p                                      & 75.88                   & 100                     & 100                     \\ \hline
+q                                      & 45.28                   & 60                      & 100                     \\ \hline
+r                                      & 43.08                   & 100                     & 100                     \\ \hline
+s                                      & 56.61                   & 80                      & 100                     \\ \hline
+t                                      & 34.70                   & 60                      & 60                      \\ \hline
+that                                   & 78.43                   & 80                      & 100                     \\ \hline
+u                                      & 57.20                   & 80                      & 100                     \\ \hline
+v                                      & 55.12                   & 80                      & 100                     \\ \hline
+w                                      & 66.25                   & 80                      & 100                     \\ \hline
+x                                      & 39.99                   & 80                      & 100                     \\ \hline
+y                                      & 73.99                   & 80                      & 100                     \\ \hline
+yes                                    & 58.36                   & 80                      & 100                     \\ \hline
+z                                      & 42.27                   & 80                      & 100                     \\ \hline
 \end{tabular}
 \end{table}
 
-\indent An average of 60.0345\% confidence level was obtained for all gestures while averages of 81.9355\% and 97.4194\% for the top-1 and top-5 accuracies were obtained.
+\indent An average of 60.03\% confidence level was obtained for all gestures while averages of 81.94\% and 97.42\% for the top-1 and top-5 accuracies were obtained.
 \newline
 \indent Gestures with low confidence level do not necessarily entail that the model fails to correctly classify them. Since most of the features of the hands are similar, gestures that look like one another can affect the confidence levels. An example can be seen in Figure \ref{fig:wrong_results} where the predictions for m and n were switched. 
 
@@ -295,7 +288,7 @@ z                                      & 42.2726                   & 80         
     \label{fig:wrong_results}
 \end{figure}
 
-\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.8182\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.1096\%. The more the gestures have similarities, the lower the produced confidence level will be since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label will most likely be part of the top-5 predictions.
+\indent \textit{Okay/good job} is the gesture with the highest confidence level (97.82\%) since it is the most unique gesture out of the 31 available. Meanwhile, the gesture with the lowest confidence level is \textit{b} with 27.11\%. The more the gestures have similarities, the lower the produced confidence level will be since the probability will be distributed. Although with similar gestures, they can still be classified correctly according to the top-1 accuracy rates. If not, then the target label will most likely be part of the top-5 predictions.
 \newline
 \indent There were gestures with perfect predictions, namely: \textit{c, d, e, f, h, hello/hi, l, o, okay/good job, p,} and \textit{r}. However, this does not guarantee that the model will be able to perfectly predict these gestures all the time. The gestures which produced inaccurate predictions can be found in Table III along with the gestures they were confused with.
 
@@ -330,20 +323,20 @@ z                                      & - r                                    
 
 % CONCLUSION
 \section{Conclusion}
-Translating sign language to text using convolutional neural networks is a feasible approach. It is powerful and compared to other neural networks, it can work with high resolution images. However, a significant amount of training data is needed to make the model more accurate. Further optimization is also required to speed up the sign language to text feature. Detecting moving gestures was not achieved aside from looking at the most significant frame due to the delays of retrieving the predictions. 
+Translating sign language to text using convolutional neural networks is a feasible approach. It is powerful and compared to other neural networks, it can work with high resolution images. However, a significant amount of training data is needed to make the model more accurate. Since the training data had a controlled background, when the background becomes too noisy and the edges of the hand are not properly defined, the model faces difficulty in translating. With these constraints, SIGN ME UP is not ready for public use. Further optimization is required to speed up the sign language to text feature. Detecting moving gestures was not achieved aside from looking at the most significant frame due to the delays of retrieving the predictions. 
 
 % RECOMMENDATION
 \section{Recommendation}
 One of the biggest challenges in implementing sign language translators is the translation of moving gestures. If the application could be optimized more so that the capturing of the images and returning of the results are faster, then the frames can be chained to check if the gesture being done is correct. Otherwise, another approach or model may be more appropriate in solving this issue. Other rooms for improvement are as follows:
 \newline
 \subsubsection{Data Gathering}
-It is highly recommended to have a larger data set when retraining the model. As much as possible, try to consider different skin tones and hand sizes. To add, be more strict with the lighting conditions and minimize shadows. Make sure that the signer knows the correct form and make the gestures uniform with little to no differences.
+It is highly recommended to have a larger data set when retraining the model. As much as possible, try to consider different skin tones and hand sizes. To add, be more strict with the lighting conditions and minimize shadows. Make sure that the signer knows the correct form and make the gestures uniform with little to no differences. Lastly, having training data with both controlled and uncontrolled backgrounds will be beneficial.
 \newline
 \subsubsection{Model Optimization}
 Even with the optimization methods done in this study, the model can be made lighter if emerging technologies such as TensorFlow Lite, are used. Models built for mobile applications such as MobileNet can also be used for faster results.
 \newline
 \subsubsection{Interface}
-Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text. Lastly, other camera options such as switching to the front camera can also be a good addition.
+Redesign the other screens to make it more appealing. Allowing the user to turn on the phone's torch without going through the phone's settings could be useful while translating sign language to text. In text to sign language, having short clips for moving gestures will be better than the single reference photo with hand silhouettes. Lastly, other camera options such as switching to the front camera can also be a good addition.
 
 % BIBLIOGRAPHY
 \bibliographystyle{./IEEE/IEEEtran}

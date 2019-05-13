@@ -2,36 +2,30 @@ package ccanonizado.signlanguagetranslator;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.Camera;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.wonderkiln.camerakit.CameraListener;
-import com.wonderkiln.camerakit.CameraProperties;
 import com.wonderkiln.camerakit.CameraView;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SignToText extends AppCompatActivity {
 
     // widget variables
     private Button translateButton;
     private TextView hint;
-    private TextView result;
+    private TextView mainResult;
+    private TextView otherResults;
     private CameraView cameraView;
 
     // translation variables
-    private String resultText;
     private Boolean translated;
     static Classifier classifier;
     static final int INPUT_SIZE = 300;
@@ -56,11 +50,13 @@ public class SignToText extends AppCompatActivity {
         // get references of widgets
         translateButton = findViewById(R.id.translateButtonST);
         hint = findViewById(R.id.stHint);
-        result = findViewById(R.id.stResult);
+        mainResult = findViewById(R.id.stMainResult);
+        otherResults = findViewById(R.id.stOtherResults);
         cameraView = findViewById(R.id.camera);
 
         // hide result first
-        result.setVisibility(View.INVISIBLE);
+        mainResult.setVisibility(View.INVISIBLE);
+        otherResults.setVisibility(View.INVISIBLE);
 
         // initialize variables and model
         translated = false;
@@ -80,7 +76,6 @@ public class SignToText extends AppCompatActivity {
                         INPUT_SIZE,
                         INPUT_SIZE,
                         false);
-//                bitmap = ImageHelper.getRotatedImage(bitmap, 90);
 
                 // call tensorflow image recognition
                 results = classifier.recognizeImage(bitmap);
@@ -99,8 +94,7 @@ public class SignToText extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            resultText = results.get(0).getTitle();
-                            result.setText(getString(resultText));
+                            setResultsText(results);
                         }
                     });
             }
@@ -112,7 +106,8 @@ public class SignToText extends AppCompatActivity {
 
                 // hide and show other widgets
                 hint.setVisibility(View.INVISIBLE);
-                result.setVisibility(View.VISIBLE);
+                mainResult.setVisibility(View.VISIBLE);
+                otherResults.setVisibility(View.VISIBLE);
                 
                 // user has translated then take picture
                 translated = true;
@@ -126,27 +121,63 @@ public class SignToText extends AppCompatActivity {
                     }
                 });
 
-                result.setText(null);
+                mainResult.setText(null);
+                otherResults.setText(null);
                 cameraView.captureImage();
             }
         });
     }
 
-    private String getString(String resultText) {
+    private void setResultsText(List<Classifier.Recognition> results) {
+        String mainResultString = "";
+        String otherResultsString = "";
+        String confidence;
 
-        // format other labels
-        switch (resultText) {
+        switch (results.get(0).getTitle()) {
             case "hellohi":
-                resultText = "hello / hi";
+                mainResultString += "hello / hi";
                 break;
             case "okaygoodjob":
-                resultText = "okay / good job";
+                mainResultString += "okay / good job";
                 break;
             default:
+                mainResultString += results.get(0).getTitle();
                 break;
         }
 
-        return resultText;
+        confidence = String.format(Locale.US, "%.2f",
+                results.get(0).getConfidence() * 100);
+        mainResultString += ": " + confidence + "%";
+        mainResult.setText(mainResultString);
+
+        for(int i=1; i<results.size(); i++) {
+            // format other labels
+            switch (results.get(i).getTitle()) {
+                case "hellohi":
+                    otherResultsString += "hello / hi";
+                    break;
+                case "okaygoodjob":
+                    otherResultsString += "okay / good job";
+                    break;
+                default:
+                    otherResultsString += results.get(i).getTitle();
+                    break;
+            }
+
+            if (i != results.size()) {
+                confidence = String.format(Locale.US, "%.2f",
+                        results.get(i).getConfidence() * 100);
+                otherResultsString += ": " + confidence + "%\n";
+            }
+
+            else {
+                confidence = String.format(Locale.US, "%.2f",
+                        results.get(i).getConfidence() * 100);
+                otherResultsString += ": " + confidence + "%";
+            }
+        }
+
+        otherResults.setText(otherResultsString);
     }
 
     private void initializeModel() {
@@ -197,9 +228,11 @@ public class SignToText extends AppCompatActivity {
 
         // if user has translated once - revert to default view
         if (translated) {
-            result.setText(null);
+            mainResult.setText(null);
+            otherResults.setText(null);
             hint.setVisibility(View.VISIBLE);
-            result.setVisibility(View.INVISIBLE);
+            mainResult.setVisibility(View.INVISIBLE);
+            otherResults.setVisibility(View.INVISIBLE);
             translated = false;
         }
         else
